@@ -2,53 +2,58 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const TrainingSchema = new mongoose.Schema({
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Users'
-  },
-
-  books: [{
-    bookid: {
+const TrainingSchema = new mongoose.Schema(
+  {
+    userId: {
       type: Schema.Types.ObjectId,
       ref: 'Users'
     },
-    isReading: {
-      type: Boolean,
-      default: false
+
+    books: [
+      {
+        bookid: {
+          type: Schema.Types.ObjectId,
+          ref: 'Users'
+        },
+        isReading: {
+          type: Boolean,
+          default: false
+        }
+      }
+    ],
+
+    timeToPerfom: {
+      required: true,
+      type: Date
+    },
+
+    booksCount: {
+      type: Number,
+      required: true
+    },
+
+    timeTraining: {
+      type: Number
+    },
+
+    unreadCount: {
+      type: Number
+    },
+
+    readPagesCount: {
+      type: Number
+    },
+
+    avgReadPages: {
+      type: Number
     }
-  }],
-
-  timeToPerfom: {
-    required: true,
-    type: Date
   },
-
-  booksCount: {
-    type: Number,
-    required: true
-  },
-
-  timeTraining: {
-    type: Number
-  },
-
-  unreadCount: {
-    type: Number
-  },
-
-  readPagesCount: {
-    type: Number
-  },
-
-  avgReadPages: {
-    type: Number
+  {
+    timestamps: true
   }
-}, {
-  timestamps: true
-});
+);
 
-TrainingSchema.pre('findOneAndUpdate', function () {
+TrainingSchema.pre('findOneAndUpdate', function() {
   const update = this.getUpdate();
   if (update.__v != null) delete update.__v;
 
