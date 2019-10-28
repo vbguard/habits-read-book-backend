@@ -22,7 +22,10 @@ const getBooks = (req, res) => {
   };
 
   Books.find({ userId })
-    .then(result => sendResponse(result))
+    .then(result => {
+      console.log('result', result);
+      sendResponse(result);
+    })
     .catch(err => sendError(err));
 };
 
