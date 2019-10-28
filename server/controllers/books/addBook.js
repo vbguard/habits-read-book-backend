@@ -17,20 +17,18 @@ const addBook = (req, res) => {
       comment: Joi.string(),
       rating: Joi.object()
         .keys({
-          1: Joi.number().integer(),
-          2: Joi.number().integer(),
-          3: Joi.number().integer(),
-          4: Joi.number().integer(),
-          5: Joi.number().integer()
+          1: Joi.bool(),
+          2: Joi.bool(),
+          3: Joi.bool(),
+          4: Joi.bool(),
+          5: Joi.bool()
         })
         .xor(1, 2, 3, 4, 5),
-      status: Joi.object()
-        .keys({
-          readed: Joi.bool(),
-          planned: Joi.bool(),
-          inReading: Joi.bool()
-        })
-        .xor('readed', 'planned', 'inReading')
+      status: Joi.object().keys({
+        readed: Joi.bool(),
+        planned: Joi.bool(),
+        inReading: Joi.bool()
+      })
     })
     .options({
       stripUnknown: true,
