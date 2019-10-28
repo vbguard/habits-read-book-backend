@@ -21,7 +21,7 @@ const getBooks = (req, res) => {
     });
   };
 
-  Books.find({ _id: userId })
+  Books.find({ userId })
     .then(result => sendResponse(result))
     .catch(err => sendError(err));
 };
