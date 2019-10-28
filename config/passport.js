@@ -124,15 +124,15 @@ module.exports = function(passport) {
         try {
           console.log('profile', profile);
           const getUser = await User.findOne({ googleId: profile.id });
-
-          if (getUser.length !== 0) {
-            const token = getUser.getJWT();
-            return done(null, { ...getUser, token });
-          }
+          console.log('getUser', getUser);
           if (!getUser) {
             const newUser = new User({
               googleId: profile._json.sub,
-              name: { fullName: profile._json.name },
+              name: {
+                fullName: profile._json.name,
+                firstName: profile._json.given_name,
+                lastName: profile._json.family_name
+              },
               photo: profile._json.picture,
               email: profile._json.email
             });
@@ -141,6 +141,11 @@ module.exports = function(passport) {
               const token = user.getJWT();
               return done(err, { ...user, token });
             });
+          }
+
+          if (getUser) {
+            const token = getUser.getJWT();
+            return done(null, { ...getUser, token });
           }
         } catch (error) {
           done(error, null);
