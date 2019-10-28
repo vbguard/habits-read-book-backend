@@ -112,7 +112,7 @@ module.exports = function(passport) {
 
         callbackURL: isDevMode
           ? `http://localhost:5000/api/v1/auth/google/callback`
-          : 'https://book-read.goit.co.ua/api/v1/auth/callback'
+          : 'https://book-read.goit.co.ua/api/v1/auth/google/callback'
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
