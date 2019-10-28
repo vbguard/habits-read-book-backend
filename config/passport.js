@@ -122,13 +122,14 @@ module.exports = function(passport) {
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
-          const user = await User.findOne({ googleId: profile.id });
+          console.log('profile', profile);
+          const getUser = await User.findOne({ googleId: profile.id });
 
-          if (user) {
-            const token = user.getJWT();
-            return done(null, { ...user, token });
+          if (getUser.length !== 0) {
+            const token = getUser.getJWT();
+            return done(null, { ...getUser, token });
           }
-          if (!user) {
+          if (!getUser) {
             const newUser = new User({
               googleId: profile._json.sub,
               name: { fullName: profile._json.name },

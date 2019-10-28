@@ -26,15 +26,13 @@ const addBook = (req, res) => {
         .xor(1, 2, 3, 4, 5),
       status: Joi.object()
         .keys({
-          readed: Joi.number().integer(),
-          planned: Joi.number().integer(),
-          inReading: Joi.number().integer()
+          readed: Joi.bool(),
+          planned: Joi.bool(),
+          inReading: Joi.bool()
         })
-        .xor('readed', 'planned', 'inReading'),
-      userId: Joi.string().required()
+        .xor('readed', 'planned', 'inReading')
     })
     .options({
-      presence: 'required',
       stripUnknown: true,
       abortEarly: false
     });
