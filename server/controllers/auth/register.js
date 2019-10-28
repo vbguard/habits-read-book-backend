@@ -1,7 +1,9 @@
 const User = require('../../models/user.model');
 const login = require('./login');
 const Joi = require('joi');
-const { ValidationError } = require('../../core/error');
+const {
+  ValidationError
+} = require('../../core/error');
 
 // Register New User and Check this email have in DB
 const userSignup = (req, res) => {
@@ -16,10 +18,21 @@ const userSignup = (req, res) => {
         .min(6)
         .max(16)
         .required(),
-      name: Joi.string()
-        .min(3)
-        .max(16)
-        .required()
+      // name: Joi.string()
+      //   .min(6)
+      //   .max(16)
+      name: Joi.object().keys({
+        firstName: Joi.string()
+          .min(3)
+          .max(16),
+        lastName: Joi.string()
+          .min(3)
+          .max(16),
+        fullName: Joi.string()
+          .min(3)
+          .max(33),
+      })
+
     })
     .options({
       stripUnknown: true,
@@ -50,3 +63,15 @@ const userSignup = (req, res) => {
 };
 
 module.exports = userSignup;
+
+/* 
+{
+"email":"testuser2@testuser.com",
+"name": {
+    "firstName": "test2",
+    "lastName": "user2",
+    "fullName": "test2 user2"
+  },
+"password":"password"
+}
+*/
