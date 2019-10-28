@@ -1,6 +1,8 @@
 const Books = require('../../models/books.model');
 
 const getBooks = (req, res) => {
+  const userId = req.user.id;
+
   console.log('getBooks route');
   const sendResponse = books => {
     res.status(200);
@@ -14,13 +16,12 @@ const getBooks = (req, res) => {
     const errMessage = error.message || 'must handle this error on login';
     res.status(400).json({
       status: 'error',
-      error: errMessage
+      message: errMessage,
+      error: error
     });
   };
 
-  const newBook = new Books();
-  newBook
-    .find({})
+  Books.find({ _id: userId })
     .then(result => sendResponse(result))
     .catch(err => sendError(err));
 };

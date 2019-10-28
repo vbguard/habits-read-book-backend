@@ -1,11 +1,7 @@
 const router = require('express').Router();
 const passport = require('passport');
 
-const {
-  login,
-  register,
-  logOut
-} = require('../controllers/auth');
+const { login, register, logOut } = require('../controllers/auth');
 
 const passportCheck = passport.authenticate('jwt', {
   session: false
@@ -31,7 +27,7 @@ router
       // return the token or you would wish otherwise give eg. a succes message
       res.redirect(
         301,
-        `http://localhost:3000/books?token=${req.user.token}&remove`
+        `http://localhost:3000/library?token=${req.user.token}&hash`
       );
     },
 

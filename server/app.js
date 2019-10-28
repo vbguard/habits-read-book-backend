@@ -14,6 +14,7 @@ const swaggerDocument = require('../config/swagger.json');
 // Import Router
 const router = require('./routes/routes');
 const config = require('../config/config');
+
 // start App - Express
 const app = express();
 
@@ -56,10 +57,10 @@ require('../config/passport')(passport);
 app.use(express.static(path.join(__dirname, 'static')));
 
 app
+  .use(config.apiPATH + config.apiVersion, router)
   .get('/', (req, res) => {
     res.render('index', { name: 'John' });
   })
-  .use(config.apiPATH + config.apiVersion, router)
   .use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
   // catch 404 and forward to error handler

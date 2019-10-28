@@ -3,5 +3,5 @@ const getBooks = require('./getBooks');
 
 module.exports = {
   addBook,
-  getBooks,
+  getBooks
 };
