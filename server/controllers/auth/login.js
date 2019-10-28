@@ -1,6 +1,8 @@
 const passport = require('passport');
 const Joi = require('joi');
-const { ValidationError } = require('../../core/error');
+const {
+  ValidationError
+} = require('../../core/error');
 
 // Login User and get him Token for access to some route action
 const userLogin = (req, res) => {
@@ -11,7 +13,21 @@ const userLogin = (req, res) => {
       ),
       password: Joi.string()
         .min(6)
-        .max(16)
+        .max(16),
+      // name: Joi.string()
+      //   .min(6)
+      //   .max(16)
+      name: Joi.object().keys({
+        firstName: Joi.string()
+          .min(3)
+          .max(16),
+        lastName: Joi.string()
+          .min(3)
+          .max(16),
+        fullName: Joi.string()
+          .min(3)
+          .max(33),
+      })
     })
     .options({
       presence: 'required',
@@ -39,19 +55,19 @@ const userLogin = (req, res) => {
   };
 
   passport.authenticate(
-    'local',
-    {
+    'local', {
       session: false
     },
     (err, user, info) => {
       if (err || !user) {
-        const infoMessage = info || { message: 'Login failed' };
+        const infoMessage = info || {
+          message: 'Login failed'
+        };
         sendError(infoMessage);
         return;
       }
       req.login(
-        user,
-        {
+        user, {
           session: false
         },
         err => {

@@ -1,7 +1,11 @@
 const router = require('express').Router();
 const passport = require('passport');
 
-const { login, register, logOut } = require('../controllers/auth');
+const {
+  login,
+  register,
+  logOut
+} = require('../controllers/auth');
 
 const passportCheck = passport.authenticate('jwt', {
   session: false
@@ -38,7 +42,9 @@ router
       // res.redirect('/auth/facebook/');
       if (err) {
         res.status(400);
-        res.render('error', { message: err.message });
+        res.render('error', {
+          message: err.message
+        });
       }
     }
   )
