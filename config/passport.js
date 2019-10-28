@@ -30,18 +30,24 @@ module.exports = function(passport) {
   passport.use(
     new LocalStrategy(
       {
-        usernameField: 'username',
+        usernameField: 'email',
         passwordField: 'password'
       },
-      (username, password, done) => {
-        User.findOne({ email: username }, (err, user) => {
+      (email, password, done) => {
+        User.findOne({ email }, (err, user) => {
           if (err) throw err;
 
           if (!user) return done(null, false, { message: 'Unknown User' });
 
           user.comparePassword(password, (err, isMatch) => {
             if (err) throw err;
-            if (isMatch) return done(null, user);
+            if (isMatch) {
+              const token = user.getJWT();
+              const userData = user.getPublicFields();
+              userData.token = token;
+              return done(null, userData);
+            }
+
             return done(null, false, { message: 'Invalid password' });
           });
         });

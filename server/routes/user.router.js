@@ -15,7 +15,7 @@ const passportCheck = passport.authenticate('jwt', {
 
 router
   .get('/users', getUsers)
-  .get('/', passportCheck, getUser)
+  .get('/me', passportCheck, getUser)
   .delete('/', passportCheck, deleteUser)
   .put('/', passportCheck, updateUser)
   .post('/restore', restorePassword);

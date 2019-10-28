@@ -29,7 +29,7 @@ const UserSchema = new mongoose.Schema(
     googleId: {
       type: String,
       // якщо реєструвати двох юзерів без гугла то в них гугл ід буде нул та реєстрації не вийде
-      unique: true,
+      // unique: true,
       index: true
     }
   },

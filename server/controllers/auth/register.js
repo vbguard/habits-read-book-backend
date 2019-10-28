@@ -1,9 +1,7 @@
 const User = require('../../models/user.model');
 const login = require('./login');
 const Joi = require('joi');
-const {
-  ValidationError
-} = require('../../core/error');
+const { ValidationError } = require('../../core/error');
 
 // Register New User and Check this email have in DB
 const userSignup = (req, res) => {
@@ -30,9 +28,8 @@ const userSignup = (req, res) => {
           .max(16),
         fullName: Joi.string()
           .min(3)
-          .max(33),
+          .max(33)
       })
-
     })
     .options({
       stripUnknown: true,
@@ -40,8 +37,10 @@ const userSignup = (req, res) => {
     });
 
   const result = schema.validate(req.body);
+  console.log('result', result);
 
-  if (result.error) throw new ValidationError(result.error.message);
+  if (result.error)
+    throw new ValidationError({ message: result.error.message, status: 400 });
 
   const sendError = error => {
     const errMessage =
@@ -64,7 +63,7 @@ const userSignup = (req, res) => {
 
 module.exports = userSignup;
 
-/* 
+/*
 {
 "email":"testuser2@testuser.com",
 "name": {

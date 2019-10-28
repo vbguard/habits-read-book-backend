@@ -1,7 +1,5 @@
 const Joi = require('joi');
-const {
-  ValidationError
-} = require('../../core/error');
+const { ValidationError } = require('../../core/error');
 
 const Books = require('../../models/books.model');
 
@@ -15,8 +13,7 @@ const addBook = (req, res) => {
       pageNumber: Joi.number()
         .integer()
         .required(),
-      readedPageNumber: Joi.number()
-        .integer(),
+      readedPageNumber: Joi.number().integer(),
       comment: Joi.string(),
       rating: Joi.object()
         .keys({
