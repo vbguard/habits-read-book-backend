@@ -8,12 +8,17 @@ const TrainingSchema = new mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: 'Users'
     },
-
+    pagesRead: [
+      {
+        date: { type: Date },
+        count: { type: Number }
+      }
+    ],
     books: [
       {
-        bookid: {
+        bookId: {
           type: Schema.Types.ObjectId,
-          ref: 'Users'
+          ref: 'Books'
         },
         isReading: {
           type: Boolean,
@@ -21,29 +26,23 @@ const TrainingSchema = new mongoose.Schema(
         }
       }
     ],
-
-    timeToPerfom: {
+    timeEnd: {
       required: true,
       type: Date
     },
-
     booksCount: {
       type: Number,
       required: true
     },
-
-    timeTraining: {
+    timeStart: {
       type: Number
     },
-
     unreadCount: {
       type: Number
     },
-
     readPagesCount: {
       type: Number
     },
-
     avgReadPages: {
       type: Number
     }

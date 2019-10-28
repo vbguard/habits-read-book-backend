@@ -14,7 +14,7 @@ const BookSchema = new mongoose.Schema(
     year: {
       type: Number
     },
-    pageNumber: {
+    pagesCount: {
       type: Number,
       required: true
     },
@@ -27,7 +27,7 @@ const BookSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['readed', 'planned', 'inReading'],
+      enum: ['read', 'planned', 'reading'],
       default: 'planned'
     },
     userId: {

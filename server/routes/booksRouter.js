@@ -5,11 +5,17 @@ const passportCheck = passport.authenticate('jwt', {
   session: false
 });
 
-const { addBook, getBooks } = require('../controllers/books');
+const {
+  addBook,
+  getBooks,
+  deleteBook,
+  updatedBook
+} = require('../controllers/books');
 
-router.get('/', getBooks).post('/create', passportCheck, addBook);
-// .delete('/', passportCheck, deleteUser)
-// .put('/', passportCheck, updateUser)
-// .post('/restore', passportCheck, restorePassword);
+router
+  .get('/', passportCheck, getBooks)
+  .post('/create', passportCheck, addBook)
+  .delete('/:bookId', passportCheck, deleteBook)
+  .patch('/:bookId', passportCheck, updatedBook);
 
 module.exports = router;

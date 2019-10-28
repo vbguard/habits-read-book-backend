@@ -31,6 +31,10 @@ const UserSchema = new mongoose.Schema(
       // якщо реєструвати двох юзерів без гугла то в них гугл ід буде нул та реєстрації не вийде
       // unique: true,
       index: true
+    },
+    haveTraining: {
+      type: Boolean,
+      default: false
     }
   },
   {
@@ -43,7 +47,8 @@ UserSchema.methods.getPublicFields = function() {
     userData: {
       name: this.name,
       email: this.email,
-      photo: this.photo
+      photo: this.photo,
+      haveTraining: this.haveTraining
     },
     token: this.token
   };
