@@ -18,11 +18,6 @@ const BookSchema = new mongoose.Schema(
       type: Number,
       required: true
     },
-    readedPageNumber: {
-      type: Number,
-      required: true,
-      default: 0
-    },
     comment: {
       type: String
     },

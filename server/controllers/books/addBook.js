@@ -4,7 +4,8 @@ const { ValidationError } = require('../../core/error');
 const Books = require('../../models/books.model');
 
 const addBook = (req, res) => {
-  console.log('addBook route');
+  const userId = req.user.id;
+
   const schema = Joi.object()
     .keys({
       title: Joi.string().required(),
@@ -13,22 +14,9 @@ const addBook = (req, res) => {
       pageNumber: Joi.number()
         .integer()
         .required(),
-      readedPageNumber: Joi.number().integer(),
       comment: Joi.string(),
-      rating: Joi.object()
-        .keys({
-          1: Joi.bool(),
-          2: Joi.bool(),
-          3: Joi.bool(),
-          4: Joi.bool(),
-          5: Joi.bool()
-        })
-        .xor(1, 2, 3, 4, 5),
-      status: Joi.object().keys({
-        readed: Joi.bool(),
-        planned: Joi.bool(),
-        inReading: Joi.bool()
-      })
+      rating: Joi.number(),
+      status: Joi.string().valid(['readed', 'planned', 'inReading'])
     })
     .options({
       stripUnknown: true,
@@ -55,7 +43,7 @@ const addBook = (req, res) => {
     });
   };
 
-  const newBook = new Books(result.value);
+  const newBook = new Books({ ...result.value, userId });
 
   newBook
     .save()
