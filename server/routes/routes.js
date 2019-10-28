@@ -13,6 +13,6 @@ const booksRouter = require('./booksRouter');
 router
   .use('/auth', authRouter)
   .use('/user', userRouter)
-  .use('/books', booksRouter)
+  .use('/books', booksRouter);
 
 module.exports = router;

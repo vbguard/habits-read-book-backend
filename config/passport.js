@@ -9,14 +9,16 @@ const User = require('../server/models/user.model.js');
 
 const { secretJwtKey, googleClientId, googleClientKey } = require('./config');
 
+const isDevMode = process.env.NODE_ENV === 'development';
+
 module.exports = function(passport) {
   const opts = {};
   opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
   opts.secretOrKey = secretJwtKey;
 
   passport.use(
-    new JwtStrategy(opts, (jwt_payload, done) => {
-      User.findOne({ _id: jwt_payload.user }, (err, user) => {
+    new JwtStrategy(opts, (jwtPayload, done) => {
+      User.findOne({ _id: jwtPayload.user }, (err, user) => {
         if (err) return done(err, false);
 
         if (user) return done(null, user);
@@ -113,7 +115,10 @@ module.exports = function(passport) {
       {
         clientID: googleClientId,
         clientSecret: googleClientKey,
-        callbackURL: `http://localhost:5000/api/v1/auth/google/callback`
+
+        callbackURL: isDevMode
+          ? `http://localhost:5000/api/v1/auth/google/callback`
+          : 'https://book-read.goit.co.ua/api/v1/auth/google/callback'
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
@@ -124,7 +129,7 @@ module.exports = function(passport) {
             return done(null, { ...user, token });
           }
           if (!user) {
-            const newUser = await new User({
+            const newUser = new User({
               googleId: profile._json.sub,
               name: { fullName: profile._json.name },
               photo: profile._json.picture,

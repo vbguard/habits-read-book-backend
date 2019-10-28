@@ -23,7 +23,6 @@ const addBook = (req, res) => {
           4: Joi.number().integer(),
           5: Joi.number().integer()
         })
-
         .xor(1, 2, 3, 4, 5),
       status: Joi.object()
         .keys({
@@ -31,7 +30,6 @@ const addBook = (req, res) => {
           planned: Joi.number().integer(),
           inReading: Joi.number().integer()
         })
-
         .xor('readed', 'planned', 'inReading'),
       userId: Joi.string().required()
     })
