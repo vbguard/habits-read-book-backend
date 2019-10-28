@@ -137,10 +137,10 @@ module.exports = function(passport) {
               email: profile._json.email
             });
 
-            newUser.save((err, user) => {
-              const token = user.getJWT();
-              return done(err, { ...user, token });
-            });
+            const savedUser = await newUser.save();
+
+            const token = savedUser.getJWT();
+            return done(err, { ...savedUser, token });
           }
 
           if (getUser) {
