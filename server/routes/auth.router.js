@@ -13,7 +13,7 @@ router
     '/google',
     passport.authenticate('google', {
       session: false,
-      scope: ['email']
+      scope: ['email', 'profile']
     })
   )
   .get(
