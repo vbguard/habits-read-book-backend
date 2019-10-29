@@ -141,7 +141,7 @@ module.exports = function(passport) {
             const savedUser = await newUser.save();
 
             const token = savedUser.getJWT();
-            return done(err, { ...savedUser, token });
+            return done(null, { ...savedUser, token });
           }
 
           if (getUser) {
