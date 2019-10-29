@@ -2,11 +2,11 @@ const router = require('express').Router();
 const passport = require('passport');
 
 const {
-  restorePassword,
-  updateUser,
-  deleteUser,
+  getUsers,
   getUser,
-  getUsers
+  deleteUser,
+  updateUser,
+  restorePassword,
 } = require('../controllers/user');
 
 const passportCheck = passport.authenticate('jwt', {

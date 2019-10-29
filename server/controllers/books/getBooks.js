@@ -2,7 +2,7 @@ const Books = require('../../models/books.model');
 
 const getBooks = (req, res) => {
   const userId = req.user.id;
-  console.log('getBooks route');
+  // console.log('getBooks route');
   const sendResponse = books => {
     res.status(200);
     res.json({
@@ -20,9 +20,11 @@ const getBooks = (req, res) => {
     });
   };
 
-  Books.find({ userId })
+  Books.find({
+      userId
+    })
     .then(result => {
-      console.log('result', result);
+      // console.log('result', result);
       sendResponse(result);
     })
     .catch(err => sendError(err));

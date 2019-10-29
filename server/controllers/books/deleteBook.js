@@ -1,9 +1,9 @@
 const Books = require('../../models/books.model');
 
 const deleteBook = (req, res) => {
-  const userId = req.user.id;
-
   console.log('deleteBook route');
+  const bookId = req.params.bookId;
+  console.log('bookId', bookId)
   const sendResponse = books => {
     res.status(200);
     res.json({
@@ -21,11 +21,8 @@ const deleteBook = (req, res) => {
     });
   };
 
-  Books.find({
-      userId
-    })
+  Books.findByIdAndDelete(bookId)
     .then(result => {
-      console.log('result', result);
       sendResponse(result);
     })
     .catch(err => sendError(err));
