@@ -128,8 +128,7 @@ module.exports = function (passport) {
         clientSecret: googleClientKey,
 
         callbackURL: isDevMode ?
-          `http://localhost:5000/api/v1/auth/google/callback` :
-          'https://book-read.goit.co.ua/api/v1/auth/google/callback'
+          `http://localhost:5000/api/v1/auth/google/callback` : 'https://book-read.goit.co.ua/api/v1/auth/google/callback'
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
@@ -153,7 +152,7 @@ module.exports = function (passport) {
             const savedUser = await newUser.save();
 
             const token = savedUser.getJWT();
-            return done(err, {
+            return done(null, {
               ...savedUser,
               token
             });
