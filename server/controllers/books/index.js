@@ -6,6 +6,6 @@ const updatedBook = require('./updatedBook');
 module.exports = {
   addBook,
   getBooks,
-  deleteBook,
-  updatedBook
+  // deleteBook,
+  // updatedBook
 };

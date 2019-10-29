@@ -1,7 +1,6 @@
 const Books = require('../../models/books.model');
 
 const getBooks = (req, res) => {
-  console.log('req.user', req.user);
   const userId = req.user.id;
   console.log('getBooks route');
   const sendResponse = books => {
