@@ -7,15 +7,11 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const User = require('../server/models/user.model.js');
 
-const {
-  secretJwtKey,
-  googleClientId,
-  googleClientKey
-} = require('./config');
+const { secretJwtKey, googleClientId, googleClientKey } = require('./config');
 
 const isDevMode = process.env.NODE_ENV === 'development';
 
-module.exports = function (passport) {
+module.exports = function(passport) {
   const opts = {};
   opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
   opts.secretOrKey = secretJwtKey;
@@ -23,48 +19,56 @@ module.exports = function (passport) {
   passport.use(
     new JwtStrategy(opts, (jwtPayload, done) => {
       // console.log('jwtPayload', jwtPayload);
-      User.findOne({
-        _id: jwtPayload.id
-      }, (err, user) => {
-        if (err) return done(err, false);
+      User.findOne(
+        {
+          _id: jwtPayload.id
+        },
+        (err, user) => {
+          if (err) return done(err, false);
 
-        if (user) return done(null, user);
+          if (user) return done(null, user);
 
-        return done(null, false);
-        // or you could create a new account
-      });
+          return done(null, false);
+          // or you could create a new account
+        }
+      );
     })
   );
 
   passport.use(
-    new LocalStrategy({
+    new LocalStrategy(
+      {
         usernameField: 'email',
         passwordField: 'password'
       },
       (email, password, done) => {
-        User.findOne({
-          email
-        }, (err, user) => {
-          if (err) throw err;
-
-          if (!user) return done(null, false, {
-            message: 'Unknown User'
-          });
-
-          user.comparePassword(password, (err, isMatch) => {
+        User.findOne(
+          {
+            email
+          },
+          (err, user) => {
             if (err) throw err;
-            if (isMatch) {
-              const token = user.getJWT();
-              const userData = user.getPublicFields();
-              userData.token = token;
-              return done(null, userData);
-            }
 
-            return done(null, false, {
-              message: 'Invalid password'
+            if (!user)
+              return done(null, false, {
+                message: 'Unknown User'
+              });
+
+            user.comparePassword(password, (err, isMatch) => {
+              if (err) throw err;
+              if (isMatch) {
+                const token = user.getJWT();
+                const userData = user.getPublicFields();
+                userData.token = token;
+                return done(null, userData);
+              }
+
+              return done(null, false, {
+                message: 'Invalid password'
+              });
             });
-          });
-        });
+          }
+        );
       }
     )
   );
@@ -79,56 +83,15 @@ module.exports = function (passport) {
     });
   });
 
-  // passport.use(
-  //   new FacebookStrategy(
-  //     {
-  //       clientID: '',
-  //       clientSecret: '',
-  //       callbackURL: `https://domain/api/auth/facebook/callback`
-  //     },
-  //     async (accessToken, refreshToken, profile, done) => {
-  //       try {
-  //         const user = await User.findOne({ facebookId: profile.id });
-  //         if (user) return done(err, user);
-  //         if (!user) {
-  //           const newUser = await new User({
-  //             githubId: profile._json.id,
-  //             name: profile._json.name
-  //           });
-
-  //           newUser.save((err, user) => done(err, user));
-  //         }
-  //       } catch (error) {
-  //         done(error, null);
-  //       }
-  //     }
-  //   )
-  // );
-
-  // passport.use(
-  //   new OAuth2Strategy(
-  //     {
-  //       authorizationURL: 'http:///oauth2/authorize',
-  //       tokenURL: 'https://www.example.com/oauth2/token',
-  //       clientID: EXAMPLE_CLIENT_ID,
-  //       clientSecret: EXAMPLE_CLIENT_SECRET,
-  //       callbackURL: 'http://localhost:3000/auth/example/callback'
-  //     },
-  //     ((accessToken, refreshToken, profile, cb) => {
-  //   User.findOrCreate({ exampleId: profile.id }, function (err, user) {
-  //     return cb(err, user);
-  //   });
-  // })
-  //   )
-  // );
-
   passport.use(
-    new GoogleStrategy({
+    new GoogleStrategy(
+      {
         clientID: googleClientId,
         clientSecret: googleClientKey,
 
-        callbackURL: isDevMode ?
-          `http://localhost:5000/api/v1/auth/google/callback` : 'https://book-read.goit.co.ua/api/v1/auth/google/callback'
+        callbackURL: isDevMode
+          ? `http://localhost:5000/api/v1/auth/google/callback`
+          : 'https://book-read.goit.co.ua/api/v1/auth/google/callback'
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
