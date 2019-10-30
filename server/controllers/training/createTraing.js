@@ -1,24 +1,23 @@
 const Joi = require('joi');
 const { ValidationError } = require('../../core/error');
+const Training = require('../../models/training.model');
 
-const Books = require('../../models/books.model');
-
-const addBook = (req, res) => {
+const createTraining = (req, res) => {
   const userId = req.user.id;
   const schema = Joi.object()
     .keys({
-      title: Joi.string().required(),
-      author: Joi.string(),
-      year: Joi.number().integer(),
+      books: Joi.array().items(
+        Joi.object().keys({
+          book: Joi.string().required()
+        })
+      ),
+      timeEnd: Joi.date().required(),
+      timeStart: Joi.date().required(),
       pagesCount: Joi.number()
+        .required()
         .integer()
         .required(),
-      comment: Joi.string(),
-      rating: Joi.number()
-        .integer()
-        .min(1)
-        .max(5),
-      status: Joi.string().valid(['readed', 'planned', 'reading'])
+      avgReadPages: Joi.number().required()
     })
     .options({
       stripUnknown: true,
@@ -29,11 +28,11 @@ const addBook = (req, res) => {
 
   if (result.error) throw new ValidationError(result.error.message);
 
-  const sendResponse = book => {
+  const sendResponse = training => {
     res.status(201);
     res.json({
       status: 'success',
-      book
+      training
     });
   };
 
@@ -45,29 +44,15 @@ const addBook = (req, res) => {
     });
   };
 
-  const newBook = new Books({
+  const newTraining = new Training({
     ...result.value,
     userId
   });
 
-  newBook
+  newTraining
     .save()
     .then(result => sendResponse(result))
     .catch(err => sendError(err));
 };
 
-module.exports = addBook;
-
-/*
-{
-  "title": "Bim",
-  "author": "Bom",
-  "year": 2000,
-  "pageNumber": "200",
-  "readedPageNumber": "200",
-  "comment": "comment",
-  "rating": "10",
-  "status": "planned",
-  "userId": "5db366eab9db601800ebf8a4",
-}
-*/
+module.exports = createTraining;

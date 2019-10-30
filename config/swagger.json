@@ -1,0 +1,342 @@
+{	
+  "openapi": "3.0.0",	
+  "info": {	
+    "version": "1.0.0",	
+    "title": "Habits API",	
+    "description": "A minimal and easy API",	
+    "license": {	
+      "name": "MIT",	
+      "url": "https://opensource.org/licenses/MIT"	
+    }	
+  },	
+  "basePath": "/api",	
+  "schemes": ["https", "http"],	
+  "servers": [	
+    {	
+      "url": "https://book-read.goit.co.ua/api/v1",	
+      "description": "The production API server"	
+    },	
+    {	
+      "url": "http://localhost:5000/api/v1",	
+      "description": "The production API server"	
+    }	
+  ],
+  "components": {
+    "securitySchemes": {
+      "jwt": {
+      "type": "http",
+      "scheme": "bearer",
+      "bearerFormat": "JWT"
+    }},
+    "bearerAuth": {
+      "type": "http",
+      "scheme": "bearer",
+      "bearerFormat": "JWT"
+    }
+  },	
+  "tags": [	
+    {	
+      "name": "Public",	
+      "description": "Routes"	
+    },	
+    {	
+      "name": "Protected",	
+      "description": "Need token"	
+    }	
+  ],	
+  "consumes": ["application/json"],	
+  "produces": ["application/json"],	
+  "paths": {
+    "/auth/login": {
+      "get": {
+        "tags": ["Public"],
+        "description":"",
+        "summary": "Login to the app (API)",	
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },	
+    "/auth/google": {	
+      "get": {	
+        "tags": ["Public"],	
+        "summary": "Redirect to Google service, after rediterted to http://localhost:3000/library",	
+        "responses": {	
+          "301": {	
+            "description": "Redirect to google Auth service"	
+          }	
+        }	
+      }	
+    },
+    "/auth/me": {
+      "get": {
+        "tags": ["Protected"],	
+        "security": ["bearerAuth"],
+        "summary": "Get all users books",
+        "parameters": [{
+          "in": "header",
+          "name": "Authorization",
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "required": true
+        }],
+        "description": "Get user data by token",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },	
+    "/books": {	
+      "get": {	
+        "tags": ["Protected"],	
+        "security": ["bearerAuth"],
+        "summary": "Get all users books",
+        "parameters": [{
+          "in": "header",
+          "name": "Authorization",
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "required": true
+        }],
+        "responses": {	
+          "200": {	
+            "description": "OK",	
+            "content": {	
+              "application/json": {	
+                "schema": {	
+                  "type": "object",	
+                  "properties": {	
+                    "status": {	
+                      "type": "string",	
+                      "default": ["OK", "BAD"]	
+                    },	
+                    "books": {	
+                      "type": "object"	
+                    }	
+                  }	
+                }	
+              }	
+            }	
+          },	
+          "404": {	
+            "description": "BAD",	
+            "content": {	
+              "application/json": {	
+                "schema": {	
+                  "type": "object",	
+                  "properties": {	
+                    "status": "BAD",	
+                    "error": {	
+                      "type": "object"	
+                    },	
+                    "message": {	
+                      "type": "string",	
+                      "example": "Not found"	
+                    }	
+                  }	
+                }	
+              }	
+            }	
+          }	
+        }	
+      }	
+    },	
+    "/books/create": {	
+      "post": {	
+        "tags": ["Protected"],	
+        "description": "Create new book (add to library)",
+        "summary": "Create new book",	
+        "security": ["bearerAuth"],
+        "parameters": [{
+          "in": "header",
+          "name": "Authorization",
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "required": true
+        }],
+        "responses": {	
+          "200": {	
+            "description": "OK",	
+            "content": {	
+              "application/json": {	
+                "schema": {	
+                  "type": "object",	
+                  "properties": {	
+                    "status": "OK",	
+                    "book": {	
+                      "type": "object",	
+                      "properties": {	
+                        "test": {}	
+                      }	
+                    }	
+                  }	
+                }	
+              }	
+            }	
+          }	
+        }	
+      }	
+    },
+    "/books/{bookId}": {
+      "patch": {	
+        "tags": ["Protected"],	
+        "summary": "Update book fields",
+        "security": ["bearerAuth"],
+        "parameters": [{
+          "in": "body",
+          "name": "Content-Type",
+          "required": true
+        }, 
+        {
+          "in": "header",
+          "name": "Authorization",
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "required": true
+        }, 
+        {
+          "in": "path",
+          "name": "bookId",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "The book ID"
+        }],
+        "requestBody": {
+          "content": {
+            "application/json":{
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "test": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {	
+          "200": {	
+            "description": "OK",	
+            "content": {	
+              "application/json": {	
+                "schema": {	
+                  "type": "object",	
+                  "properties": {	
+                    "status": {	
+                      "type": "string",	
+                      "default": ["OK", "BAD"]	
+                    },	
+                    "books": {	
+                      "type": "object"	
+                    }	
+                  }	
+                }	
+              }	
+            }	
+          },	
+          "404": {	
+            "description": "BAD",	
+            "content": {	
+              "application/json": {	
+                "schema": {	
+                  "type": "object",	
+                  "properties": {	
+                    "status": "BAD",	
+                    "error": {	
+                      "type": "object"	
+                    },	
+                    "message": {	
+                      "type": "string",	
+                      "example": "Not found"	
+                    }	
+                  }	
+                }	
+              }	
+            }	
+          }	
+        }	
+      },
+      "delete": {	
+        "tags": ["Protected"],	
+        "summary": "Delete book by book id",
+        "security": ["bearerAuth"],
+        "parameters": [{
+          "in": "header",
+          "name": "Authorization",
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "required": true
+        }, {
+          "in": "path",
+          "name": "bookId",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "The book ID"
+        }],
+        "responses": {	
+          "200": {	
+            "description": "OK",	
+            "content": {	
+              "application/json": {	
+                "schema": {	
+                  "type": "object",	
+                  "properties": {	
+                    "status": {	
+                      "type": "string",	
+                      "default": ["OK", "BAD"]	
+                    },	
+                    "books": {	
+                      "type": "object"	
+                    }	
+                  }	
+                }	
+              }	
+            }	
+          },	
+          "404": {	
+            "description": "BAD",	
+            "content": {	
+              "application/json": {	
+                "schema": {	
+                  "type": "object",	
+                  "properties": {	
+                    "status": "BAD",	
+                    "error": {	
+                      "type": "object"	
+                    },	
+                    "message": {	
+                      "type": "string",	
+                      "example": "Not found"	
+                    }	
+                  }	
+                }	
+              }	
+            }	
+          }	
+        }	
+      }
+    }	
+  }
+}

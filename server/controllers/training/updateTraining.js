@@ -1,8 +1,10 @@
-const Books = require('../../models/books.model');
+const Training = require('../../models/training.model');
 
-const getBooks = (req, res) => {
+const updateTraining = (req, res) => {
+  const bookId = req.params.bookId;
   const userId = req.user.id;
-  // console.log('getBooks route');
+  const updatedData = req.body;
+  // console.log('updatedBook route');
   const sendResponse = books => {
     res.status(200);
     res.json({
@@ -20,9 +22,21 @@ const getBooks = (req, res) => {
     });
   };
 
-  Books.find({
-    userId
-  })
+  Training.findByIdAndUpdate(
+    {
+      _id: bookId,
+      userId
+    },
+    {
+      $set: {
+        ...req.body
+      }
+    },
+    {
+      new: true
+    }
+  )
+    .populate('books.book', { title: 1, author: 1, year: 1, pagesCount: 1 })
     .then(result => {
       // console.log('result', result);
       sendResponse(result);
@@ -30,4 +44,4 @@ const getBooks = (req, res) => {
     .catch(err => sendError(err));
 };
 
-module.exports = getBooks;
+module.exports = updateTraining;

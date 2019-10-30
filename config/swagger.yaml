@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.0.2
 info:
   version: 1.0.0
   title: Habits API
@@ -31,18 +31,18 @@ paths:
   /auth/google:
     get:
       tags: ['Public']
-      summary: Redirect to Google service, after rediterted to http://localhost:3000/library
+      summary: Redirect to Google service, after rediterted to http://localhost:3000/library?token=
       responses:
         301:
           description: Redirect to google Auth service
   /books: 
     get: 
-      tags: ["Protected"]
+      tags: ['Protected']
       parameters:
         - in: header
           name: JWT
           schema: 
-            $ref: "#/components/securitySchemes/jwt"
+            $ref: '#/components/securitySchemes/jwt'
       summary: Return list of books by state Readed, PlanReads, Reading
       responses: 
         200:
@@ -71,39 +71,29 @@ paths:
                     type: object
                   message:
                     type: string
-                    example: "Not found
-  /books/create
+                    example: Not found
+  /books/create:
     post:
       tags: ["Protected"]
-      description: Create new book (add to library)
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": "OK",
-                    "book": {
-                      "type": "object",
-                      "properties": {
-                        "test": "test"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "components": {
-      "schemas": {
-        "Book": {
-          "type": "object"
-        }
-      }
-    }
-  }
+      parameters:
+        - in: header
+          name: JWT
+          schema: 
+            $ref: "#/components/securitySchemes/jwt"
+      summary: Return list of books by state Readed, PlanReads, Reading
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                    default: OK
+                  book: 
+                    type: object
+                    properties:
+                      test: 
+                        type: string

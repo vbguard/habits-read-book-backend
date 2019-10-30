@@ -21,15 +21,19 @@ const updatedBook = (req, res) => {
     });
   };
 
-  Books.findByIdAndUpdate({
+  Books.findByIdAndUpdate(
+    {
       _id: bookId
-    }, {
+    },
+    {
       $set: {
         ...req.body
       }
-    }, {
+    },
+    {
       new: true
-    })
+    }
+  )
     .then(result => {
       // console.log('result', result);
       sendResponse(result);

@@ -2,13 +2,15 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
+const { ObjectId } = Schema.Types;
+
 const TrainingSchema = new mongoose.Schema(
   {
     userId: {
-      type: Schema.Types.ObjectId,
+      type: ObjectId,
       ref: 'Users'
     },
-    pagesRead: [
+    pagesReadResult: [
       {
         date: { type: Date },
         count: { type: Number }
@@ -16,11 +18,11 @@ const TrainingSchema = new mongoose.Schema(
     ],
     books: [
       {
-        bookId: {
-          type: Schema.Types.ObjectId,
+        book: {
+          type: ObjectId,
           ref: 'Books'
         },
-        isReading: {
+        isRead: {
           type: Boolean,
           default: false
         }

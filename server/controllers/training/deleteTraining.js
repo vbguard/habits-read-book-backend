@@ -1,8 +1,9 @@
-const Books = require('../../models/books.model');
+const Training = require('../../models/training.model');
 
-const getBooks = (req, res) => {
+const deleteTraining = (req, res) => {
   const userId = req.user.id;
-  // console.log('getBooks route');
+  const trainingId = req.params.trainingId;
+
   const sendResponse = books => {
     res.status(200);
     res.json({
@@ -20,14 +21,11 @@ const getBooks = (req, res) => {
     });
   };
 
-  Books.find({
-    userId
-  })
+  Training.findOneAndDelete({ _id: trainingId, userId })
     .then(result => {
-      // console.log('result', result);
       sendResponse(result);
     })
     .catch(err => sendError(err));
 };
 
-module.exports = getBooks;
+module.exports = deleteTraining;

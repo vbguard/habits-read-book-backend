@@ -6,7 +6,7 @@ const {
   getUser,
   deleteUser,
   updateUser,
-  restorePassword,
+  restorePassword
 } = require('../controllers/user');
 
 const passportCheck = passport.authenticate('jwt', {
@@ -17,7 +17,7 @@ router
   .get('/users', getUsers)
   .get('/me', passportCheck, getUser)
   .delete('/', passportCheck, deleteUser)
-  .put('/', passportCheck, updateUser)
+  .patch('/', passportCheck, updateUser)
   .post('/restore', restorePassword);
 
 module.exports = router;

@@ -2,44 +2,47 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const BookSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true
+const BookSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true
+    },
+    author: {
+      type: String
+    },
+    year: {
+      type: Number
+    },
+    pagesCount: {
+      type: Number,
+      required: true
+    },
+    comment: {
+      type: String
+    },
+    rating: {
+      type: Number,
+      enum: [1, 2, 3, 4, 5],
+      min: 1,
+      max: 5
+    },
+    status: {
+      type: String,
+      enum: ['read', 'planned', 'reading'],
+      default: 'planned'
+    },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Users'
+    }
   },
-  author: {
-    type: String
-  },
-  year: {
-    type: Number
-  },
-  pagesCount: {
-    type: Number,
-    required: true
-  },
-  comment: {
-    type: String
-  },
-  rating: {
-    type: Number,
-    enum: [1, 2, 3, 4, 5],
-    min: 1,
-    max: 5
-  },
-  status: {
-    type: String,
-    enum: ['read', 'planned', 'reading'],
-    default: 'planned'
-  },
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Users'
+  {
+    timestamps: true
   }
-}, {
-  timestamps: true
-});
+);
 
-BookSchema.pre('findOneAndUpdate', function () {
+BookSchema.pre('findOneAndUpdate', function() {
   const update = this.getUpdate();
   if (update.__v != null) delete update.__v;
 
