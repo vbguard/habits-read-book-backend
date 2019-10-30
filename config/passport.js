@@ -7,19 +7,25 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const User = require('../server/models/user.model.js');
 
-const { secretJwtKey, googleClientId, googleClientKey } = require('./config');
+const {
+  secretJwtKey,
+  googleClientId,
+  googleClientKey
+} = require('./config');
 
 const isDevMode = process.env.NODE_ENV === 'development';
 
-module.exports = function(passport) {
+module.exports = function (passport) {
   const opts = {};
   opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
   opts.secretOrKey = secretJwtKey;
 
   passport.use(
     new JwtStrategy(opts, (jwtPayload, done) => {
-      console.log('jwtPayload', jwtPayload);
-      User.findOne({ _id: jwtPayload.id }, (err, user) => {
+      // console.log('jwtPayload', jwtPayload);
+      User.findOne({
+        _id: jwtPayload.id
+      }, (err, user) => {
         if (err) return done(err, false);
 
         if (user) return done(null, user);
@@ -31,16 +37,19 @@ module.exports = function(passport) {
   );
 
   passport.use(
-    new LocalStrategy(
-      {
+    new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password'
       },
       (email, password, done) => {
-        User.findOne({ email }, (err, user) => {
+        User.findOne({
+          email
+        }, (err, user) => {
           if (err) throw err;
 
-          if (!user) return done(null, false, { message: 'Unknown User' });
+          if (!user) return done(null, false, {
+            message: 'Unknown User'
+          });
 
           user.comparePassword(password, (err, isMatch) => {
             if (err) throw err;
@@ -51,7 +60,9 @@ module.exports = function(passport) {
               return done(null, userData);
             }
 
-            return done(null, false, { message: 'Invalid password' });
+            return done(null, false, {
+              message: 'Invalid password'
+            });
           });
         });
       }
@@ -69,19 +80,19 @@ module.exports = function(passport) {
   });
 
   passport.use(
-    new GoogleStrategy(
-      {
+    new GoogleStrategy({
         clientID: googleClientId,
         clientSecret: googleClientKey,
 
-        callbackURL: isDevMode
-          ? `http://localhost:5000/api/v1/auth/google/callback`
-          : 'https://book-read.goit.co.ua/api/v1/auth/google/callback'
+        callbackURL: isDevMode ?
+          `http://localhost:5000/api/v1/auth/google/callback` : 'https://book-read.goit.co.ua/api/v1/auth/google/callback'
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
           console.log('profile', profile);
-          const getUser = await User.findOne({ googleId: profile.id });
+          const getUser = await User.findOne({
+            googleId: profile.id
+          });
           console.log('getUser', getUser);
           if (!getUser) {
             const newUser = new User({
@@ -98,12 +109,18 @@ module.exports = function(passport) {
             const savedUser = await newUser.save();
 
             const token = savedUser.getJWT();
-            return done(null, { ...savedUser, token });
+            return done(null, {
+              ...savedUser,
+              token
+            });
           }
 
           if (getUser) {
             const token = getUser.getJWT();
-            return done(null, { ...getUser, token });
+            return done(null, {
+              ...getUser,
+              token
+            });
           }
         } catch (error) {
           done(error, null);

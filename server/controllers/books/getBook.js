@@ -1,14 +1,15 @@
 const Books = require('../../models/books.model');
 
-const updatedBook = (req, res) => {
+const getBook = (req, res) => {
+  console.log('getBook route');
+
   const bookId = req.params.bookId;
 
-  // console.log('updatedBook route');
-  const sendResponse = books => {
+  const sendResponse = book => {
     res.status(200);
     res.json({
       status: 'success',
-      books
+      book
     });
   };
 
@@ -21,15 +22,7 @@ const updatedBook = (req, res) => {
     });
   };
 
-  Books.findByIdAndUpdate({
-      _id: bookId
-    }, {
-      $set: {
-        ...req.body
-      }
-    }, {
-      new: true
-    })
+  Books.findById(bookId)
     .then(result => {
       // console.log('result', result);
       sendResponse(result);
@@ -37,4 +30,4 @@ const updatedBook = (req, res) => {
     .catch(err => sendError(err));
 };
 
-module.exports = updatedBook;
+module.exports = getBook;
