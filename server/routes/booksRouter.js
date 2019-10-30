@@ -8,14 +8,16 @@ const passportCheck = passport.authenticate('jwt', {
 const {
   addBook,
   getBooks,
-  deleteBook,
-  updatedBook
+  getBook,
+  updatedBook,
+  deleteBook
 } = require('../controllers/books');
 
 router
   .get('/', passportCheck, getBooks)
   .post('/create', passportCheck, addBook)
+  .get('/:bookId', passportCheck, getBook)
+  .patch('/:bookId', passportCheck, updatedBook)
   .delete('/:bookId', passportCheck, deleteBook)
-  .patch('/:bookId', passportCheck, updatedBook);
 
 module.exports = router;

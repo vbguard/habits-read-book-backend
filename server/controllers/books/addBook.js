@@ -1,21 +1,25 @@
 const Joi = require('joi');
-const { ValidationError } = require('../../core/error');
+const {
+  ValidationError
+} = require('../../core/error');
 
 const Books = require('../../models/books.model');
 
 const addBook = (req, res) => {
   const userId = req.user.id;
-
   const schema = Joi.object()
     .keys({
       title: Joi.string().required(),
       author: Joi.string(),
       year: Joi.number().integer(),
-      pageNumber: Joi.number()
+      pagesCount: Joi.number()
         .integer()
         .required(),
       comment: Joi.string(),
-      rating: Joi.number(),
+      rating: Joi.number()
+        .integer()
+        .min(1)
+        .max(5),
       status: Joi.string().valid(['readed', 'planned', 'inReading'])
     })
     .options({
@@ -43,7 +47,10 @@ const addBook = (req, res) => {
     });
   };
 
-  const newBook = new Books({ ...result.value, userId });
+  const newBook = new Books({
+    ...result.value,
+    userId
+  });
 
   newBook
     .save()
