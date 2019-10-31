@@ -1,15 +1,15 @@
 const Training = require('../../models/training.model');
 
 const updateTraining = (req, res) => {
-  const bookId = req.params.bookId;
+  const trainingId = req.params.trainingId;
   const userId = req.user.id;
-  const updatedData = req.body;
+  const addNewCounts = req.body;
   // console.log('updatedBook route');
-  const sendResponse = books => {
+  const sendResponse = newTime => {
     res.status(200);
     res.json({
       status: 'success',
-      books
+      pagesReadResult: newTime
     });
   };
 
@@ -22,14 +22,14 @@ const updateTraining = (req, res) => {
     });
   };
 
-  Training.findByIdAndUpdate(
+  Training.findOneAndUpdate(
     {
-      _id: bookId,
+      _id: trainingId,
       userId
     },
     {
       $push: {
-        pagesReadResult: updateTraining
+        pagesReadResult: addNewCounts
       }
     },
     {
@@ -39,7 +39,7 @@ const updateTraining = (req, res) => {
     .populate('books.book', { title: 1, author: 1, year: 1, pagesCount: 1 })
     .then(result => {
       // console.log('result', result);
-      sendResponse(result);
+      sendResponse(result.pagesReadResult);
     })
     .catch(err => sendError(err));
 };

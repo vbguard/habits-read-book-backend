@@ -33,19 +33,35 @@ const TrainingSchema = new mongoose.Schema(
       type: Date
     },
     booksCount: {
-      type: Number
+      type: Number,
+      default: function() {
+        return this.books.length;
+      }
     },
     timeStart: {
       type: Number
     },
     unreadCount: {
-      type: Number
+      type: Number,
+      default: function() {
+        const value = this.books.reduce((acc, book) => {
+          let number = 0;
+          if (!book.isRead) number = 1;
+
+          return acc + number;
+        }, 0);
+        return value;
+      }
     },
     readPagesCount: {
       type: Number
     },
     avgReadPages: {
       type: Number
+    },
+    isDone: {
+      type: Boolean,
+      default: false
     }
   },
   {

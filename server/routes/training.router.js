@@ -14,7 +14,7 @@ router
   .patch('/:trainingId', updateTraining)
   .delete('/:trainingId', deleteTraining)
   .post('/', createTraining)
-  .post('/time', addTrainingTime)
+  .post('/time/:trainingId', addTrainingTime)
 
   .delete('/time/:trainingTimeId', deleteTrainingTime);
 
