@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { ValidationError } = require('../../core/error');
+// const { ValidationError } = require('../../core/error');
 const Training = require('../../models/training.model');
 
 const createTraining = (req, res) => {
@@ -26,8 +26,6 @@ const createTraining = (req, res) => {
 
   const result = schema.validate(req.body);
 
-  if (result.error) throw new ValidationError(result.error.message);
-
   const sendResponse = training => {
     res.status(201);
     res.json({
@@ -43,6 +41,8 @@ const createTraining = (req, res) => {
       error: errMessage
     });
   };
+
+  if (result.error) sendError(result.error);
 
   const newTraining = new Training({
     ...result.value,

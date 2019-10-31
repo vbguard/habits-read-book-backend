@@ -4,13 +4,18 @@ const {
   getTraining,
   updateTraining,
   deleteTraining,
-  createTraining
+  createTraining,
+  addTrainingTime,
+  deleteTrainingTime
 } = require('../controllers/training');
 
 router
   .get('/', getTraining)
   .patch('/:trainingId', updateTraining)
   .delete('/:trainingId', deleteTraining)
-  .post('/', createTraining);
+  .post('/', createTraining)
+  .post('/time', addTrainingTime)
+
+  .delete('/time/:trainingTimeId', deleteTrainingTime);
 
 module.exports = router;
