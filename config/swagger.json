@@ -280,7 +280,7 @@
         }
       }
     },
-    "/auth/me": {
+    "/user/me": {
       "get": {
         "tags": ["Protected"],
         "security": ["bearerAuth"],
