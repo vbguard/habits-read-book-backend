@@ -18,6 +18,6 @@ router
   .post('/create', passportCheck, addBook)
   .get('/:bookId', passportCheck, getBook)
   .patch('/:bookId', passportCheck, updatedBook)
-  .delete('/:bookId', passportCheck, deleteBook)
+  .delete('/:bookId', passportCheck, deleteBook);
 
 module.exports = router;

@@ -23,6 +23,36 @@
   ],
   "components": {
     "schemas": {
+      "BooksCreateRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "required": [true]
+          },
+          "author": {
+            "type": "string"
+          },
+          "year": {
+            "type": "number"
+          },
+          "pagesCount": {
+            "type": "number"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "number",
+            "enum": [1, 2, 3, 4, 5]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["readed", "planned", "reading"]
+          }
+        },
+        "required": ["title", "pagesCount"]
+      },
       "TrainingRespond": {
         "type": "object",
         "properties": {
@@ -387,6 +417,15 @@
             "required": true
           }
         ],
+        "requestBody": {
+          "content": {
+            "applecation/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BooksCreateRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
