@@ -23,6 +23,81 @@
   ],
   "components": {
     "schemas": {
+      "TrainingRespond": {
+        "type": "object",
+        "properties": {
+          "books": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "book": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "year": { "type": "number" },
+                    "pageCount": { "type": "number" },
+                    "author": { "type": "string" }
+                  }
+                },
+                "isRead": {
+                  "type": "boolean",
+                  "default": false
+                }
+              }
+            }
+          },
+          "booksCount": { "type": "number" },
+          "unreadCount": { "type": "number" },
+          "readPagesCount": { "type": "number" },
+          "avgReadPages": { "type": "number" },
+          "pagesReadResult": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "count": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      },
+      "TrainingRequestBody": {
+        "type": "object",
+        "properties": {
+          "books": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "book": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "timeStart": {
+            "type": "string",
+            "format": "date"
+          },
+          "timeEnd": {
+            "type": "string",
+            "format": "date"
+          },
+          "avgReadPages": {
+            "type": "number"
+          }
+        }
+      },
       "AuthLoginRegisterResponse": {
         "type": "object",
         "properties": {
@@ -509,10 +584,36 @@
         ],
         "responses": {
           "200": {
-            "description": "Return user training if user created"
+            "description": "Return user training if user created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrainingRespond"
+                }
+              }
+            }
           },
           "403": {
-            "description": "If user don't have training"
+            "description": "If user don't have training",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "default": "BAD",
+                      "example": "BAD"
+                    },
+                    "message": {
+                      "type": "string",
+                      "default": "User not have training",
+                      "example": "User not have training"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -532,9 +633,26 @@
             "required": true
           }
         ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "applecation/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrainingRequestBody"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
-            "description": "Return created training data"
+            "description": "Return created training data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrainingRespond"
+                }
+              }
+            }
           }
         }
       }
