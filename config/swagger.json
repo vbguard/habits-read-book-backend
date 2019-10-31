@@ -691,6 +691,69 @@
           }
         }
       }
+    },
+    "/training/time": {
+      "post": {
+        "tags": ["Protected"],
+        "description": "Add read pages and time added",
+        "summary": "Add read pages and time added",
+        "security": ["bearerAuth"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "applecation/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "count": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Return created training data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "date": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "count": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

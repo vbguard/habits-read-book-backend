@@ -33,8 +33,7 @@ const TrainingSchema = new mongoose.Schema(
       type: Date
     },
     booksCount: {
-      type: Number,
-      required: true
+      type: Number
     },
     timeStart: {
       type: Number
