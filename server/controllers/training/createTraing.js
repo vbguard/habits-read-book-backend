@@ -1,6 +1,7 @@
 const Joi = require('joi');
 // const { ValidationError } = require('../../core/error');
 const Training = require('../../models/training.model');
+const getTraining = require('./getTraining.js');
 
 const createTraining = (req, res) => {
   const userId = req.user.id;
@@ -51,7 +52,9 @@ const createTraining = (req, res) => {
 
   newTraining
     .save()
-    .then(result => sendResponse(result))
+    .then(result => {
+      if (result) getTraining(req, res);
+    })
     .catch(err => sendError(err));
 };
 
