@@ -1,10 +1,10 @@
 const Training = require('../../models/training.model');
 const getTraining = require('./getTraining');
+const { ObjectId } = require('mongoose').Types;
 
 const updateBookReadCheck = (req, res) => {
   const trainingId = req.params.trainingId;
   const bookId = req.params.booksId;
-  const userId = req.user.id;
   const updatedData = req.body;
 
   const sendError = error => {
@@ -16,18 +16,17 @@ const updateBookReadCheck = (req, res) => {
     });
   };
 
-  Training.findOneAndUpdate(
+  Training.update(
     {
-      _id: trainingId,
-      userId
+      _id: ObjectId(trainingId)
     },
     {
-      $set: { 'books.$[elem].isRead': updatedData.isRead },
+      $set: { 'books.$[elem].isRead': !!updatedData.isRead },
       $inc: { unreadCount: updatedData.isRead ? -1 : 1 }
     },
     {
       multi: true,
-      arrayFilters: [{ 'elem._id': bookId }]
+      arrayFilters: [{ 'elem._id': ObjectId(bookId) }]
     }
   )
     .then(result => {
