@@ -23,7 +23,7 @@ const updateBookReadCheck = (req, res) => {
     },
     [
       { $set: { 'books.$[elem].isRead': updatedData.isDone } },
-      { $inc: { unreadCount: -1 }  }
+      { $inc: { unreadCount: updatedData.isDone ? -1 : 1 } }
     ],
     {
       multi: true,
