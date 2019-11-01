@@ -306,6 +306,49 @@
         }
       }
     },
+    "/auth/logout": {
+      "post": {
+        "tags": ["Protected"],
+        "description": "",
+        "summary": "Logout from app",
+        "security": ["bearerAuth"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "string",
+                      "default": "OK",
+                      "example": "OK"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User successful logout",
+                      "default": "User successful logout"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/user/me": {
       "get": {
         "tags": ["Protected"],
