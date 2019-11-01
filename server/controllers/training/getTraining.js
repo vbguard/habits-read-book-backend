@@ -121,7 +121,7 @@ const getTraining = (req, res) => {
     },
     {
       $project: {
-        _id: '$_id._id',
+        trainingId: '$_id._id',
         isDone: '$_id.isDone',
         timeStart: '$_id.timeStart',
         timeEnd: '$_id.timeEnd',
