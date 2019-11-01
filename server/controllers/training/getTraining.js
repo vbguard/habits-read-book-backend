@@ -8,7 +8,7 @@ const getTraining = (req, res) => {
 
   const sendResponse = training => {
     console.log('training', training);
-    if (haveTraining)
+    if (haveTraining && training.length !== 0)
       return res.status(200).json({
         status: 'OK',
         training: training[0] || null,
