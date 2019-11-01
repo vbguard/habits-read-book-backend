@@ -1,7 +1,7 @@
 const Training = require('../../models/training.model');
 const getTraining = require('./getTraining');
 
-const updateTraining = (req, res) => {
+const updateBookReadCheck = (req, res) => {
   const trainingId = req.params.trainingId;
   const userId = req.user.id;
   const updatedData = req.body;
@@ -44,4 +44,4 @@ const updateTraining = (req, res) => {
     .catch(err => sendError(err));
 };
 
-module.exports = updateTraining;
+module.exports = updateBookReadCheck;
