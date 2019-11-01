@@ -2,6 +2,7 @@ const Joi = require('joi');
 // const { ValidationError } = require('../../core/error');
 const Training = require('../../models/training.model');
 const getTraining = require('./getTraining.js');
+const User = require('../../models/user.model');
 
 const createTraining = (req, res) => {
   const userId = req.user.id;
@@ -53,6 +54,10 @@ const createTraining = (req, res) => {
   newTraining
     .save()
     .then(result => {
+      User.findByIdAndUpdate(userId, { $set: { haveTraining: true } }, err => {
+        if (err) sendError(err);
+      });
+      req.user.haveTraining = true;
       if (result) getTraining(req, res);
     })
     .catch(err => sendError(err));

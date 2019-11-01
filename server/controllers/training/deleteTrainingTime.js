@@ -1,14 +1,16 @@
 const Training = require('../../models/training.model');
+const { ObjectId } = require('mongoose').Types;
 
 const deleteTraining = (req, res) => {
   const userId = req.user.id;
-  const trainingTimeId = req.params.trainingTimeId;
+  const trainingId = req.params.trainingId;
+  const trainingTimeId = req.body.trainingTimeId;
 
   const sendResponse = books => {
     res.status(200);
     res.json({
       status: 'success',
-      books
+      pageReadResult: books
     });
   };
 
@@ -22,7 +24,7 @@ const deleteTraining = (req, res) => {
   };
 
   Training.findOneAndUpdate(
-    { 'pagesReadResult._id': trainingTimeId, userId },
+    { _id: ObjectId(trainingId), userId },
     { $pull: { 'pagesReadResult._id': trainingTimeId } }
   )
     .then(result => {

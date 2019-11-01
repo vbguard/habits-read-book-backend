@@ -754,6 +754,54 @@
           }
         }
       }
+    },
+    "/training/time/{trainingId}": {
+      "delete": {
+        "tags": ["Protected"],
+        "description": "Add read pages and time added",
+        "summary": "Add read pages and time added",
+        "security": ["bearerAuth"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "trainingId",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "applecation/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "trainingTimeId": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   }
 }

@@ -4,12 +4,21 @@ const Books = require('../../models/books.model');
 
 const getTraining = (req, res) => {
   const userId = req.user.id;
+  const haveTraining = req.user.haveTraining;
 
   const sendResponse = training => {
-    res.status(200);
-    res.json({
+    if (haveTraining)
+      return res.status(200).json({
+        status: 'OK',
+        training: training[0] || [],
+        userData: {
+          haveTraining: haveTraining
+        }
+      });
+
+    res.status(200).json({
       status: 'OK',
-      training
+      training: training[0] || []
     });
   };
 
@@ -47,7 +56,12 @@ const getTraining = (req, res) => {
       }
     },
     { $limit: 1 },
-    { $addFields: { sumPagesReadResult: { $sum: '$books.book.pagesCount' } } },
+    {
+      $addFields: {
+        allPagesCount: { $sum: '$books.book.pagesCount' },
+        userRead: { $sum: '$pagesReadResult.count' }
+      }
+    },
     {
       $project: {
         __v: 0,
@@ -56,7 +70,8 @@ const getTraining = (req, res) => {
         'books.book.__v': 0,
         'books.book.userId': 0,
         'books.book.createdAt': 0,
-        'books.book.updatedAt': 0
+        'books.book.updatedAt': 0,
+        'books.book.status': 0
       }
     }
   ])
