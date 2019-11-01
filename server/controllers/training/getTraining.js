@@ -11,7 +11,7 @@ const getTraining = (req, res) => {
     if (haveTraining)
       return res.status(200).json({
         status: 'OK',
-        training: training || [],
+        training: training[0] || null,
         userData: {
           haveTraining: haveTraining
         }
@@ -19,7 +19,7 @@ const getTraining = (req, res) => {
 
     res.status(200).json({
       status: 'OK',
-      training: training || []
+      training: training[0] || null
     });
   };
 

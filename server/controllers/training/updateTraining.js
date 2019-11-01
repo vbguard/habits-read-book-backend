@@ -1,5 +1,6 @@
 const Training = require('../../models/training.model');
 const getTraining = require('./getTraining');
+const User = require('../../models/user.model');
 
 const updateTraining = (req, res) => {
   const trainingId = req.params.trainingId;
@@ -38,6 +39,10 @@ const updateTraining = (req, res) => {
     }
   )
     .then(result => {
+      const { isDone } = updatedData;
+      if (isDone && isDone === true)
+        User.findByIdAndUpdate(userId, { $set: { haveTraining: false } });
+
       // console.log('result', result);
       if (result) getTraining(req, res);
     })
