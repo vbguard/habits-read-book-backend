@@ -61,12 +61,18 @@ const createTraining = (req, res) => {
           err => {
             if (err) sendError(err);
             const booksIds = newResult.books.map(book => book.book);
-            Books.updateMany(booksIds, { $set: { status: 'readed' } }, err => {
-              if (err) sendError(err);
-            });
+            Books.updateMany(
+              booksIds,
+              { $set: { status: 'reading' } },
+              { new: true },
+              (err, doc) => {
+                if (err) sendError(err);
+                console.log('doc', doc);
+                getTraining(req, res);
+              }
+            );
           }
         );
-        getTraining(req, res);
       }
     })
     .catch(err => sendError(err));
