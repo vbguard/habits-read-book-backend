@@ -78,11 +78,11 @@ const getTraining = (req, res) => {
         'books.trainingBookId': '$books._id'
       }
     },
-    // {
-    //   $addFields: {
-    //     userRead: { $sum: '$pagesReadResult.count' }
-    //   }
-    // },
+    {
+      $addFields: {
+        userRead: { $sum: '$pagesReadResult.count' }
+      }
+    },
     {
       $group: {
         _id: {
@@ -96,27 +96,27 @@ const getTraining = (req, res) => {
           booksCount: '$booksCount',
           unreadCount: '$unreadCount'
         },
-        // pagesReadResult: {
-        //   $push: {
-        //     date: {
-        //       yearMonthDay: {
-        //         $dateToString: {
-        //           format: '%Y-%m-%d',
-        //           date: '$pagesReadResult.date'
-        //         }
-        //       },
-        //       time: {
-        //         $dateToString: {
-        //           format: '%H:%M:%S:%L%z',
-        //           date: '$pagesReadResult.date',
-        //           timezone: 'Europe/Kiev'
-        //         }
-        //       }
-        //     },
-        //     count: '$pagesReadResult.count',
-        //     _id: '$pagesReadResult._id'
-        //   }
-        // },
+        pagesReadResult: {
+          $push: {
+            date: {
+              yearMonthDay: {
+                $dateToString: {
+                  format: '%Y-%m-%d',
+                  date: '$pagesReadResult.date'
+                }
+              },
+              time: {
+                $dateToString: {
+                  format: '%H:%M:%S:%L%z',
+                  date: '$pagesReadResult.date',
+                  timezone: 'Europe/Kiev'
+                }
+              }
+            },
+            count: '$pagesReadResult.count',
+            _id: '$pagesReadResult._id'
+          }
+        },
         books: { $push: '$books' },
         allPagesCount: { $sum: '$books.book.pagesCount' }
       }
