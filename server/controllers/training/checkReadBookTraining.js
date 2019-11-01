@@ -16,7 +16,7 @@ const updateBookReadCheck = (req, res) => {
     });
   };
   console.log('updatedData', updatedData);
-  Training.update(
+  Training.updateOne(
     {
       'books._id': bookId
     },
