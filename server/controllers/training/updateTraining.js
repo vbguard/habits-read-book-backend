@@ -40,14 +40,22 @@ const updateTraining = (req, res) => {
   )
     .then(result => {
       const { isDone } = updatedData;
-      if (isDone && isDone === true) {
-        User.findByIdAndUpdate(userId, { $set: { haveTraining: false } });
-        const booksIds = [];
-        console.log('fasfa');
-      }
+      if (isDone && isDone === true)
+        User.findByIdAndUpdate(
+          userId,
+          { $set: { haveTraining: false } },
+          { new: true }
+        )
+          .then(user => {
+            if (user) {
+              if (result) getTraining(req, res);
+              const booksIds = [];
+              console.log('fasfa');
+            }
+          })
+          .catch(err => sendError(err));
 
       // console.log('result', result);
-      if (result) getTraining(req, res);
     })
     .catch(err => sendError(err));
 };
