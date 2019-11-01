@@ -22,16 +22,12 @@ const updateBookReadCheck = (req, res) => {
       userId,
       'books._id': bookId
     },
-    [
-      {
-        $set: {
-          'books.$.isRead': updatedData.isRead
-        }
+    {
+      $set: {
+        'books.$.isRead': updatedData.isRead
       },
-      {
-        $inc: { unreadCount: -1 }
-      }
-    ],
+      $inc: { unreadCount: -1 }
+    },
     {
       new: true
     }
