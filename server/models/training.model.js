@@ -12,8 +12,8 @@ const TrainingSchema = new mongoose.Schema(
     },
     pagesReadResult: [
       {
-        date: { type: Date },
-        count: { type: Number }
+        date: { type: Date, default: Date.now() },
+        count: { type: Number, default: 0 }
       }
     ],
     books: [
