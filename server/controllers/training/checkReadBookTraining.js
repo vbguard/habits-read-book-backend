@@ -26,7 +26,7 @@ const updateBookReadCheck = (req, res) => {
     //  $inc: { unreadCount: updatedData.isRead ? -1 : 1 } }
 
     {
-      arrayFilters: [{ 'el._id': ObjectId(bookId) }]
+      arrayFilters: [{ 'el._id': bookId }]
     }
   )
     .then(result => {
