@@ -4,7 +4,7 @@ const { ObjectId } = require('mongoose').Types;
 
 const updateBookReadCheck = (req, res) => {
   const trainingId = req.params.trainingId;
-  const bookId = req.params.booksId;
+  const trainingBookId = req.params.trainingBookId;
   const updatedData = req.body;
 
   const sendError = error => {
@@ -16,17 +16,16 @@ const updateBookReadCheck = (req, res) => {
     });
   };
   console.log('updatedData', updatedData);
-  Training.findOneAndUpdate(
+  console.log('bookId', trainingBookId);
+  Training.updateOne(
     {
       _id: trainingId
     },
     {
       $set: { 'books.$[el].isRead': updatedData.isRead }
     },
-    //  $inc: { unreadCount: updatedData.isRead ? -1 : 1 } }
-
     {
-      arrayFilters: [{ 'el._id': bookId }]
+      arrayFilters: [{ 'el._id': trainingBookId }]
     },
     (err, doc) => {
       if (err) sendError(err);
