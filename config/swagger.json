@@ -996,7 +996,7 @@
         }
       }
     },
-    "/training/time/{trainingTimeId}": {
+    "/training/time/{trainingId}": {
       "delete": {
         "tags": ["Protected"],
         "description": "Remove read pages and time added",
