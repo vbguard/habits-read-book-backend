@@ -72,6 +72,8 @@ const getTraining = (req, res) => {
         'books.book.bookId': '$books.book._id',
         'books.book.title': '$books.book.title',
         'books.book.pagesCount': '$books.book.pagesCount',
+        'books.book.author': '$books.book.author',
+        'books.book.year': '$books.book.year',
         'books.isRead': '$books.isRead',
         'books.trainingBookId': '$books._id'
       }
