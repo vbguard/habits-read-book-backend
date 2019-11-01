@@ -16,15 +16,18 @@ const updateBookReadCheck = (req, res) => {
     });
   };
   console.log('updatedData', updatedData);
-  Training.findByIdAndUpdate(
-    trainingId,
+  Training.updateOne(
+    {
+      _id: trainingId
+    },
     {
       $set: { 'books.$[elem].isRead': updatedData.isRead }
     },
     //  $inc: { unreadCount: updatedData.isRead ? -1 : 1 } }
 
     {
-      arrayFilters: [{ 'elem._id': bookId }]
+      arrayFilters: [{ 'elem._id': bookId }],
+      overwrite: true
     }
   )
     .then(result => {
