@@ -17,8 +17,7 @@ const createTraining = (req, res) => {
       timeStart: Joi.date().required(),
       readPagesCount: Joi.number()
         .required()
-        .integer()
-        .required(),
+        .integer(),
       avgReadPages: Joi.number().required()
     })
     .options({
