@@ -46,7 +46,7 @@ const createTraining = (req, res) => {
   console.log('result :', result);
   result.value.pagesReadResult = [
     {
-      date: Date.now(),
+      date: new Date(),
       count: 0
     }
   ];
