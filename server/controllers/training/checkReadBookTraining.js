@@ -16,7 +16,7 @@ const updateBookReadCheck = (req, res) => {
     });
   };
   console.log('updatedData', updatedData);
-  Training.updateOne(
+  Training.update(
     {
       _id: trainingId
     },
@@ -26,8 +26,7 @@ const updateBookReadCheck = (req, res) => {
     //  $inc: { unreadCount: updatedData.isRead ? -1 : 1 } }
 
     {
-      arrayFilters: [{ 'elem._id': bookId }],
-      overwrite: true
+      arrayFilters: [{ 'elem._id': bookId }]
     }
   )
     .then(result => {
