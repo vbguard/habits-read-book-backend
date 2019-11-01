@@ -756,7 +756,7 @@
         }
       }
     },
-    "/training/{trainingId}/book/{bookId}": {
+    "/training/{trainingId}/book/{trainingBookId}": {
       "patch": {
         "tags": ["Protected"],
         "description": "Toggle is book read (checkbox)",
