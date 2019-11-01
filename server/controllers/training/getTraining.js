@@ -69,7 +69,6 @@ const getTraining = (req, res) => {
         pagesReadResult: '$pagesReadResult',
         booksCount: '$booksCount',
         unreadCount: '$unreadCount',
-        allPagesCount: '$allPagesCount',
         'books.book.bookId': '$books.book._id',
         'books.book.title': '$books.book.title',
         'books.book.pagesCount': '$books.book.pagesCount',
@@ -94,7 +93,6 @@ const getTraining = (req, res) => {
           pagesReadResult: '$pagesReadResult',
           booksCount: '$booksCount',
           unreadCount: '$unreadCount'
-          // allPagesCount: '$allPagesCount',
         },
         // pagesReadResult: {
         //   $push: {
