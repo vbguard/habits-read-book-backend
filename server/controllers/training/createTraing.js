@@ -44,10 +44,12 @@ const createTraining = (req, res) => {
 
   if (result.error) sendError(result.error);
   console.log('result :', result);
-  result.value.pagesReadResult = {
-    date: Date.now(),
-    count: 0
-  };
+  result.value.pagesReadResult = [
+    {
+      date: Date.now(),
+      count: 0
+    }
+  ];
   const newTraining = new Training({
     ...result.value,
     userId
