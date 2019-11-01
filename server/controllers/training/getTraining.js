@@ -7,6 +7,7 @@ const getTraining = (req, res) => {
   const haveTraining = req.user.haveTraining;
 
   const sendResponse = training => {
+    console.log('training', training);
     if (haveTraining)
       return res.status(200).json({
         status: 'OK',
