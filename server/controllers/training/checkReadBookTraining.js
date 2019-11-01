@@ -27,14 +27,18 @@ const updateBookReadCheck = (req, res) => {
 
     {
       arrayFilters: [{ 'el._id': bookId }]
+    },
+    (err, doc) => {
+      if (err) sendError(err);
+      if (doc) getTraining(req, res);
     }
-  )
-    .then(result => {
-      console.log('result', result);
+  );
+  // .then(result => {
+  //   console.log('result', result);
 
-      if (result) getTraining(req, res);
-    })
-    .catch(err => sendError(err));
+  //   if (result) getTraining(req, res);
+  // })
+  // .catch(err => sendError(err));
 };
 
 module.exports = updateBookReadCheck;
