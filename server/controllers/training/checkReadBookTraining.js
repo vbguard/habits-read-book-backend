@@ -24,7 +24,6 @@ const updateBookReadCheck = (req, res) => {
     //  $inc: { unreadCount: updatedData.isRead ? -1 : 1 } }
 
     {
-      multi: true,
       arrayFilters: [{ 'elem._id': bookId }]
     }
   )
