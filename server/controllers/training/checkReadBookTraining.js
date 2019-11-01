@@ -21,12 +21,12 @@ const updateBookReadCheck = (req, res) => {
       _id: trainingId
     },
     {
-      $set: { 'books.$[].isRead': updatedData.isRead }
+      $set: { 'books.$[el].isRead': updatedData.isRead }
     },
     //  $inc: { unreadCount: updatedData.isRead ? -1 : 1 } }
 
     {
-      // arrayFilters: [{ 'elem._id': bookId }]
+      arrayFilters: [{ 'el._id': ObjectId(bookId) }]
     }
   )
     .then(result => {
