@@ -27,8 +27,7 @@
         "type": "object",
         "properties": {
           "title": {
-            "type": "string",
-            "required": [true]
+            "type": "string"
           },
           "author": {
             "type": "string"
@@ -48,6 +47,32 @@
           }
         },
         "required": ["title", "pagesCount"]
+      },
+      "BookRespond": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string"
+          },
+          "pagesCount": {
+            "type": "number"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "number",
+            "enum": [0,1,2,3,4,5]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["read", "planned", "reading"],
+            "default": "planned"
+          }
+        }
       },
       "TrainingRespond": {
         "type": "object",
@@ -409,7 +434,10 @@
                       "default": ["OK", "BAD"]
                     },
                     "books": {
-                      "type": "object"
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/BookRespond"
+                      }
                     }
                   }
                 }
@@ -425,7 +453,8 @@
                   "properties": {
                     "status": "BAD",
                     "error": {
-                      "type": "object"
+                      "type": "object",
+                      "properties": {}
                     },
                     "message": {
                       "type": "string",
@@ -475,10 +504,7 @@
                   "properties": {
                     "status": "OK",
                     "book": {
-                      "type": "object",
-                      "properties": {
-                        "test": {}
-                      }
+                      "$ref": "#/components/schemas/BookRespond"
                     }
                   }
                 }
@@ -523,12 +549,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "test": {
-                    "type": "string"
-                  }
-                }
+                "$ref": "#/components/schemas/BookRespond"
               }
             }
           }
@@ -545,8 +566,8 @@
                       "type": "string",
                       "default": ["OK", "BAD"]
                     },
-                    "books": {
-                      "type": "object"
+                    "book": {
+                      "$ref": "#/components/schemas/BookRespond"
                     }
                   }
                 }

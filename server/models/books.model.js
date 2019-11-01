@@ -23,9 +23,10 @@ const BookSchema = new mongoose.Schema(
     },
     rating: {
       type: Number,
-      enum: [1, 2, 3, 4, 5],
-      min: 1,
-      max: 5
+      enum: [0, 1, 2, 3, 4, 5],
+      min: 0,
+      max: 5,
+      default: 0
     },
     status: {
       type: String,
