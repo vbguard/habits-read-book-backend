@@ -6,7 +6,8 @@ const {
   deleteTraining,
   createTraining,
   addTrainingTime,
-  deleteTrainingTime
+  deleteTrainingTime,
+  checkReadBookTraining
 } = require('../controllers/training');
 
 router
@@ -15,6 +16,7 @@ router
   .delete('/:trainingId', deleteTraining)
   .post('/', createTraining)
   .post('/time/:trainingId', addTrainingTime)
-  .delete('/time/:trainingTimeId', deleteTrainingTime);
+  .delete('/time/:trainingTimeId', deleteTrainingTime)
+  .patch('/:trainingId/book/:bookId', checkReadBookTraining);
 
 module.exports = router;

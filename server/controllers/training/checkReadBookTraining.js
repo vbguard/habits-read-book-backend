@@ -3,16 +3,9 @@ const getTraining = require('./getTraining');
 
 const updateBookReadCheck = (req, res) => {
   const trainingId = req.params.trainingId;
+  const bookId = req.params.booksId;
   const userId = req.user.id;
   const updatedData = req.body;
-  // console.log('updatedBook route');
-  // const sendResponse = training => {
-  //   res.status(200);
-  //   res.json({
-  //     status: 'success',
-  //     training
-  //   });
-  // };
 
   const sendError = error => {
     const errMessage = error.message || 'must handle this error on login';
@@ -26,11 +19,12 @@ const updateBookReadCheck = (req, res) => {
   Training.findOneAndUpdate(
     {
       _id: trainingId,
-      userId
+      userId,
+      'books._id': bookId
     },
     {
       $set: {
-        ...updatedData
+        'books.isRead': true
       }
     },
     {
@@ -38,7 +32,7 @@ const updateBookReadCheck = (req, res) => {
     }
   )
     .then(result => {
-      // console.log('result', result);
+      console.log('result', result);
       if (result) getTraining(req, res);
     })
     .catch(err => sendError(err));

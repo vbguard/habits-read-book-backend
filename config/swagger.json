@@ -735,6 +735,67 @@
         }
       }
     },
+    "/training/{trainingId}/book/{bookId}": {
+      "patch": {
+        "tags": ["Protected"],
+        "description": "Toggle is book read (checkbox)",
+        "summary": "Toggle is book read (checkbox)",
+        "security": ["bearerAuth"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "trainingId",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "bookId",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "You have choice change one field or all fields",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Return created training data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/training/{trainingId}": {
       "patch": {
         "tags": ["Protected"],

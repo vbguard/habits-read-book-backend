@@ -4,6 +4,7 @@ const getTraining = require('./getTraining');
 const deleteTraining = require('./deleteTraining');
 const deleteTrainingTime = require('./deleteTrainingTime');
 const addTrainingTime = require('./addTrainingTime');
+const checkReadBookTraining = require('./checkReadBookTraining');
 
 module.exports = {
   getTraining,
@@ -11,5 +12,6 @@ module.exports = {
   deleteTraining,
   createTraining,
   deleteTrainingTime,
-  addTrainingTime
+  addTrainingTime,
+  checkReadBookTraining
 };
