@@ -15,13 +15,13 @@ const updateBookReadCheck = (req, res) => {
       error: error
     });
   };
-
+  console.log('updatedData', updatedData);
   Training.update(
     {
       _id: ObjectId(trainingId)
     },
     {
-      $set: { 'books.$[elem].isRead': !!updatedData.isRead },
+      $set: { 'books.$[elem].isRead': updatedData.isRead },
       $inc: { unreadCount: updatedData.isRead ? -1 : 1 }
     },
     {
