@@ -19,8 +19,7 @@ const updateBookReadCheck = (req, res) => {
   Training.findByIdAndUpdate(
     trainingId,
     {
-      $set: { 'books.$[elem].isRead': updatedData.isRead },
-      $inc: { unreadCount: updatedData.isRead ? -1 : 1 }
+      $set: { 'books.$[elem].isRead': updatedData.isRead }
     },
     //  $inc: { unreadCount: updatedData.isRead ? -1 : 1 } }
 
