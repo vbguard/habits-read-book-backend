@@ -45,7 +45,7 @@ const createTraining = (req, res) => {
   };
 
   if (result.error) sendError(result.error);
-
+  console.log('result :', result);
   const newTraining = new Training({
     ...result.value,
     userId
@@ -53,12 +53,19 @@ const createTraining = (req, res) => {
 
   newTraining
     .save()
-    .then(result => {
-      User.findByIdAndUpdate(userId, { $set: { haveTraining: true } }, err => {
-        if (err) sendError(err);
-      });
-      req.user.haveTraining = true;
-      if (result) getTraining(req, res);
+    .then(newResult => {
+      console.log('newResult :', newResult);
+      if (newResult) {
+        req.user.haveTraining = true;
+        User.findByIdAndUpdate(
+          userId,
+          { $set: { haveTraining: true } },
+          err => {
+            if (err) sendError(err);
+          }
+        );
+        getTraining(req, res);
+      }
     })
     .catch(err => sendError(err));
 };
