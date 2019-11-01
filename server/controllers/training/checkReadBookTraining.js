@@ -24,7 +24,7 @@ const updateBookReadCheck = (req, res) => {
     },
     {
       $set: {
-        'books.isRead': true
+        'books.isRead': updatedData.isRead
       }
     },
     {

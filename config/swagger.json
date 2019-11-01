@@ -776,7 +776,14 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": {}
+                "properties": {
+                  "isRead": {
+                    "type": "boolean",
+                    "example": true,
+                    "enum": [true, false]
+                  }
+                },
+                "required": ["isRead"]
               }
             }
           }
