@@ -24,7 +24,7 @@ const updateBookReadCheck = (req, res) => {
     },
     {
       $set: {
-        'books.isRead': updatedData.isRead
+        'books.$.isRead': updatedData.isRead
       }
     },
     {
@@ -33,6 +33,7 @@ const updateBookReadCheck = (req, res) => {
   )
     .then(result => {
       console.log('result', result);
+
       if (result) getTraining(req, res);
     })
     .catch(err => sendError(err));
