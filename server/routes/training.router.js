@@ -15,8 +15,8 @@ router
   .patch('/:trainingId', updateTraining)
   .delete('/:trainingId', deleteTraining)
   .post('/', createTraining)
-  .post('/time/:trainingId', addTrainingTime)
-  .delete('/time/:trainingTimeId', deleteTrainingTime)
+  .post('/:trainingId/time/:trainingId', addTrainingTime)
+  .delete('/:trainingId/time/:trainingTimeId', deleteTrainingTime)
   .patch('/:trainingId/book/:bookId', checkReadBookTraining);
 
 module.exports = router;
