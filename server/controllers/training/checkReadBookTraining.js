@@ -18,10 +18,10 @@ const updateBookReadCheck = (req, res) => {
   console.log('updatedData', updatedData);
   Training.updateOne(
     {
-      'books._id': bookId
+      _id: trainingId
     },
     {
-      $set: { 'books.$.isRead': updatedData.isRead }
+      $set: { 'books.$[].isRead': updatedData.isRead }
     },
     //  $inc: { unreadCount: updatedData.isRead ? -1 : 1 } }
 
