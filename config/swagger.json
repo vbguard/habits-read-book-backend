@@ -735,13 +735,22 @@
         }
       }
     },
-    "/training/time": {
-      "post": {
+    "/training/{trainingId}": {
+      "patch": {
         "tags": ["Protected"],
-        "description": "Add read pages and time added",
-        "summary": "Add read pages and time added",
+        "description": "Update training fields in one level",
+        "summary": "Update training fields in one level",
         "security": ["bearerAuth"],
         "parameters": [
+          {
+            "in": "path",
+            "name": "trainingId",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          },
           {
             "in": "header",
             "name": "Authorization",
@@ -753,9 +762,109 @@
           }
         ],
         "requestBody": {
+          "description": "You have choice change one field or all fields",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Return created training data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Protected"],
+        "description": "Hard remove training)",
+        "summary": "Hard remove training)",
+        "security": ["bearerAuth"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "trainingId",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Return status deleting trainings",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "default": "OK",
+                      "example": "OK"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/training/time/{trainingId}": {
+      "post": {
+        "tags": ["Protected"],
+        "description": "Add read pages and time",
+        "summary": "Add read pages and time",
+        "security": ["bearerAuth"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "trainingId",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
           "description": "",
           "content": {
-            "applecation/json": {
+            "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
@@ -773,7 +882,7 @@
         },
         "responses": {
           "201": {
-            "description": "Return created training data",
+            "description": "Return created field data",
             "content": {
               "application/json": {
                 "schema": {
@@ -796,13 +905,11 @@
             }
           }
         }
-      }
-    },
-    "/training/time/{trainingId}": {
+      },
       "delete": {
         "tags": ["Protected"],
-        "description": "Add read pages and time added",
-        "summary": "Add read pages and time added",
+        "description": "Remove read pages and time added",
+        "summary": "Remove read pages and time added",
         "security": ["bearerAuth"],
         "parameters": [
           {
@@ -834,7 +941,8 @@
                     "type": "string",
                     "format": "uuid"
                   }
-                }
+                },
+                "required": ["trainingTimeId"]
               }
             }
           }

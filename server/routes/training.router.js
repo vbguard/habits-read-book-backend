@@ -15,7 +15,6 @@ router
   .delete('/:trainingId', deleteTraining)
   .post('/', createTraining)
   .post('/time/:trainingId', addTrainingTime)
-
   .delete('/time/:trainingTimeId', deleteTrainingTime);
 
 module.exports = router;
