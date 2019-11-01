@@ -3,6 +3,7 @@ const Joi = require('joi');
 const Training = require('../../models/training.model');
 const getTraining = require('./getTraining.js');
 const User = require('../../models/user.model');
+const Books = require('../../models/books.model');
 
 const createTraining = (req, res) => {
   const userId = req.user.id;
@@ -59,6 +60,10 @@ const createTraining = (req, res) => {
           { $set: { haveTraining: true } },
           err => {
             if (err) sendError(err);
+            const booksIds = newResult.books.map(book => book.book);
+            Books.updateMany(booksIds, { $set: { status: 'readed' } }, err => {
+              if (err) sendError(err);
+            });
           }
         );
         getTraining(req, res);

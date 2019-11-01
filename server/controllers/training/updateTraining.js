@@ -1,6 +1,7 @@
 const Training = require('../../models/training.model');
 const getTraining = require('./getTraining');
 const User = require('../../models/user.model');
+const Books = require('../../models/books.model');
 
 const updateTraining = (req, res) => {
   const trainingId = req.params.trainingId;
@@ -49,8 +50,9 @@ const updateTraining = (req, res) => {
           .then(user => {
             if (user) {
               if (result) getTraining(req, res);
-              const booksIds = result.books.map(book => book);
+              const booksIds = result.books.map(book => book.book);
               console.log('fasfa', booksIds);
+              Books.updateMany(booksIds, { $set: { status: 'readed' } });
             }
           })
           .catch(err => sendError(err));
