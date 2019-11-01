@@ -19,17 +19,15 @@ const updateBookReadCheck = (req, res) => {
   Training.findOneAndUpdate(
     {
       _id: trainingId,
-      userId,
-      'books._id': bookId
+      userId
     },
+    [
+      { $set: { 'books.$[elem].isRead': updatedData.isDone } },
+      { $inc: { unreadCount: -1 }  }
+    ],
     {
-      $set: {
-        'books.$.isRead': updatedData.isRead
-      },
-      $inc: { unreadCount: -1 }
-    },
-    {
-      new: true
+      multi: true,
+      arrayFilters: [{ 'elem._id': bookId }]
     }
   )
     .then(result => {
