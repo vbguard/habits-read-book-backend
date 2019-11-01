@@ -49,8 +49,8 @@ const updateTraining = (req, res) => {
           .then(user => {
             if (user) {
               if (result) getTraining(req, res);
-              const booksIds = [];
-              console.log('fasfa');
+              const booksIds = result.books.map(book => book);
+              console.log('fasfa', booksIds);
             }
           })
           .catch(err => sendError(err));
