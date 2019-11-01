@@ -73,7 +73,7 @@ const getTraining = (req, res) => {
         'books.book.title': '$books.book.title',
         'books.book.pagesCount': '$books.book.pagesCount',
         'books.isRead': '$books.isRead',
-        'books._id': '$books._id'
+        'books.trainingBookId': '$books._id'
       }
     },
     // {
