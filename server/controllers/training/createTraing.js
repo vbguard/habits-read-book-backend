@@ -63,9 +63,9 @@ const createTraining = (req, res) => {
             const booksIds = newResult.books.map(book => book.book);
             console.log('booksIds', booksIds);
             Books.updateMany(
-              booksIds,
+              { _id: { $in: booksIds } },
               { $set: { status: 'reading' } },
-              { new: true },
+              { new: true, multi: true },
               (err, doc) => {
                 if (err) sendError(err);
                 console.log('doc', doc);

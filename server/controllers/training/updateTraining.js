@@ -49,10 +49,18 @@ const updateTraining = (req, res) => {
         )
           .then(user => {
             if (user) {
-              if (result) getTraining(req, res);
               const booksIds = result.books.map(book => book.book);
               console.log('fasfa', booksIds);
-              Books.updateMany(booksIds, { $set: { status: 'readed' } });
+              Books.updateMany(
+                { _id: { $in: booksIds } },
+                { $set: { status: 'readed' } },
+                { new: true, multi: true },
+                (err, doc) => {
+                  if (err) sendError(err);
+                  console.log('doc', doc);
+                  if (result) getTraining(req, res);
+                }
+              );
             }
           })
           .catch(err => sendError(err));
