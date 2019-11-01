@@ -40,8 +40,11 @@ const updateTraining = (req, res) => {
   )
     .then(result => {
       const { isDone } = updatedData;
-      if (isDone && isDone === true)
+      if (isDone && isDone === true) {
         User.findByIdAndUpdate(userId, { $set: { haveTraining: false } });
+        const booksIds = [];
+        console.log('fasfa');
+      }
 
       // console.log('result', result);
       if (result) getTraining(req, res);
