@@ -16,20 +16,17 @@ const updateBookReadCheck = (req, res) => {
     });
   };
   console.log('updatedData', updatedData);
-  Training.updateOne(
+  Training.findByIdAndUpdate(
+    trainingId,
     {
-      _id: ObjectId(trainingId)
+      $set: { 'books.$[elem].isRead': updatedData.isRead },
+      $inc: { unreadCount: updatedData.isRead ? -1 : 1 }
     },
-    [
-      {
-        $set: { 'books.$[elem].isRead': updatedData.isRead }
-        // $inc: { unreadCount: updatedData.isRead ? -1 : 1 }
-      },
-      { $inc: { unreadCount: updatedData.isRead ? -1 : 1 } }
-    ],
+    //  $inc: { unreadCount: updatedData.isRead ? -1 : 1 } }
+
     {
       multi: true,
-      arrayFilters: [{ 'elem._id': ObjectId(bookId) }]
+      arrayFilters: [{ 'elem._id': bookId }]
     }
   )
     .then(result => {
