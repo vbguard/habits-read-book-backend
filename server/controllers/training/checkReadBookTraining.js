@@ -18,15 +18,15 @@ const updateBookReadCheck = (req, res) => {
   console.log('updatedData', updatedData);
   Training.update(
     {
-      _id: trainingId
+      'books._id': bookId
     },
     {
-      $set: { 'books.$[elem].isRead': updatedData.isRead }
+      $set: { 'books.$.isRead': updatedData.isRead }
     },
     //  $inc: { unreadCount: updatedData.isRead ? -1 : 1 } }
 
     {
-      arrayFilters: [{ 'elem._id': bookId }]
+      // arrayFilters: [{ 'elem._id': bookId }]
     }
   )
     .then(result => {
