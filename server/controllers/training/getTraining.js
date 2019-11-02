@@ -146,65 +146,65 @@ const getTraining = (req, res) => {
         'books.book.updatedAt': 0,
         'books.book.status': 0
       }
-    },
-    { $unwind: '$pagesReadResult' },
-    { $addFields: { pagesReadResult: '$pagesReadResult' } },
-    {
-      $group: {
-        _id: {
-          _id: '$_id',
-          isDone: '$isDone',
-          timeStart: '$timeStart',
-          timeEnd: '$timeEnd',
-          avgReadPages: '$avgReadPages',
-          readPagesCount: '$readPagesCount',
-          // pagesReadResult: '$pagesReadResult',
-          booksCount: '$booksCount',
-          unreadCount: '$unreadCount',
-          allPagesCount: '$allPagesCount',
-          userRead: '$userRead',
-          books: '$books'
-        },
-        userRead: { $sum: '$pagesReadResult.count' },
-        pagesReadResult: {
-          $push: {
-            date: {
-              yearMonthDay: {
-                $dateToString: {
-                  format: '%d-%m-%Y',
-                  date: '$pagesReadResult.date'
-                }
-              },
-              time: {
-                $dateToString: {
-                  format: '%H:%M:%S',
-                  date: '$pagesReadResult.date',
-                  timezone: 'Europe/Kiev'
-                }
-              }
-            },
-            count: '$pagesReadResult.count',
-            _id: '$pagesReadResult._id'
-          }
-        }
-      }
-    },
-    {
-      $project: {
-        _id: '$_id._id',
-        isDone: '$_id.isDone',
-        timeStart: '$_id.timeStart',
-        timeEnd: '$_id.timeEnd',
-        avgReadPages: '$_id.avgReadPages',
-        readPagesCount: '$_id.readPagesCount',
-        booksCount: '$_id.booksCount',
-        unreadCount: '$_id.unreadCount',
-        allPagesCount: '$_id.allPagesCount',
-        userRead: '$userRead',
-        books: '$_id.books',
-        pagesReadResult: '$pagesReadResult'
-      }
     }
+    // { $unwind: '$pagesReadResult' },
+    // { $addFields: { pagesReadResult: '$pagesReadResult' } },
+    // {
+    //   $group: {
+    //     _id: {
+    //       _id: '$_id',
+    //       isDone: '$isDone',
+    //       timeStart: '$timeStart',
+    //       timeEnd: '$timeEnd',
+    //       avgReadPages: '$avgReadPages',
+    //       readPagesCount: '$readPagesCount',
+    //       // pagesReadResult: '$pagesReadResult',
+    //       booksCount: '$booksCount',
+    //       unreadCount: '$unreadCount',
+    //       allPagesCount: '$allPagesCount',
+    //       userRead: '$userRead',
+    //       books: '$books'
+    //     },
+    //     userRead: { $sum: '$pagesReadResult.count' },
+    //     pagesReadResult: {
+    //       $push: {
+    //         date: {
+    //           yearMonthDay: {
+    //             $dateToString: {
+    //               format: '%d-%m-%Y',
+    //               date: '$pagesReadResult.date'
+    //             }
+    //           },
+    //           time: {
+    //             $dateToString: {
+    //               format: '%H:%M:%S',
+    //               date: '$pagesReadResult.date',
+    //               timezone: 'Europe/Kiev'
+    //             }
+    //           }
+    //         },
+    //         count: '$pagesReadResult.count',
+    //         _id: '$pagesReadResult._id'
+    //       }
+    //     }
+    //   }
+    // },
+    // {
+    //   $project: {
+    //     _id: '$_id._id',
+    //     isDone: '$_id.isDone',
+    //     timeStart: '$_id.timeStart',
+    //     timeEnd: '$_id.timeEnd',
+    //     avgReadPages: '$_id.avgReadPages',
+    //     readPagesCount: '$_id.readPagesCount',
+    //     booksCount: '$_id.booksCount',
+    //     unreadCount: '$_id.unreadCount',
+    //     allPagesCount: '$_id.allPagesCount',
+    //     userRead: '$userRead',
+    //     books: '$_id.books',
+    //     pagesReadResult: '$pagesReadResult'
+    //   }
+    // }
 
     // { $limit: 1 }
   ])
