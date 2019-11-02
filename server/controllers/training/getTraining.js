@@ -177,7 +177,7 @@ const getTraining = (req, res) => {
               },
               time: {
                 $dateToString: {
-                  format: '%H:%M',
+                  format: '%H:%M:%S',
                   date: '$pagesReadResult.date',
                   timezone: 'Europe/Kiev'
                 }
