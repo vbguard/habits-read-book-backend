@@ -43,13 +43,7 @@ const createTraining = (req, res) => {
   };
 
   if (result.error) sendError(result.error);
-  console.log('result :', result);
-  result.value.pagesReadResult = [
-    {
-      date: new Date().toLocaleString('uk-UA', { timeZone: 'Europe/Kiev' }),
-      count: 0
-    }
-  ];
+
   const newTraining = new Training({
     ...result.value,
     userId
@@ -67,14 +61,14 @@ const createTraining = (req, res) => {
           err => {
             if (err) sendError(err);
             const booksIds = newResult.books.map(book => book.book);
-            console.log('booksIds', booksIds);
+
             Books.updateMany(
               { _id: { $in: booksIds } },
               { $set: { status: 'reading' } },
               { new: true, multi: true },
               (err, doc) => {
                 if (err) sendError(err);
-                console.log('doc', doc);
+
                 getTraining(req, res);
               }
             );
