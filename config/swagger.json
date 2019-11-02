@@ -65,7 +65,7 @@
           },
           "rating": {
             "type": "number",
-            "enum": [0,1,2,3,4,5]
+            "enum": [0, 1, 2, 3, 4, 5]
           },
           "status": {
             "type": "string",
@@ -77,6 +77,10 @@
       "TrainingRespond": {
         "type": "object",
         "properties": {
+          "trainingId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "books": {
             "type": "array",
             "items": {
@@ -85,6 +89,10 @@
                 "book": {
                   "type": "object",
                   "properties": {
+                    "bookId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
                     "title": {
                       "type": "string"
                     },
@@ -92,6 +100,10 @@
                     "pageCount": { "type": "number" },
                     "author": { "type": "string" }
                   }
+                },
+                "trainingBookId": {
+                  "type": "string",
+                  "format": "uuid"
                 },
                 "isRead": {
                   "type": "boolean",
@@ -104,11 +116,16 @@
           "unreadCount": { "type": "number" },
           "readPagesCount": { "type": "number" },
           "avgReadPages": { "type": "number" },
+          "isDone": { "type": "boolean", "default": false },
           "pagesReadResult": {
             "type": "array",
             "items": {
               "type": "object",
               "properties": {
+                "_id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
                 "date": {
                   "type": "string",
                   "format": "date"
@@ -810,13 +827,21 @@
           }
         },
         "responses": {
-          "201": {
-            "description": "Return created training data",
+          "200": {
+            "description": "Return udated training data",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {}
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "default": "OK"
+                    },
+                    "training": {
+                      "$ref": "#/components/schemas/TrainingRespond"
+                    }
+                  }
                 }
               }
             }
@@ -856,19 +881,36 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": {}
+                "properties": {
+                  "isDone": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "booksCount": { "type": "number" },
+                  "unreadCount": { "type": "number" },
+                  "readPagesCount": { "type": "number" },
+                  "avgReadPages": { "type": "number" }
+                }
               }
             }
           }
         },
         "responses": {
-          "201": {
-            "description": "Return created training data",
+          "200": {
+            "description": "Return udated training data",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {}
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "default": "OK"
+                    },
+                    "training": {
+                      "$ref": "#/components/schemas/TrainingRespond"
+                    }
+                  }
                 }
               }
             }
@@ -977,16 +1019,28 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "_id": {
+                    "status": {
                       "type": "string",
-                      "format": "uuid"
+                      "default": "OK"
                     },
-                    "date": {
-                      "type": "string",
-                      "format": "date"
-                    },
-                    "count": {
-                      "type": "number"
+                    "pagesReadResult": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "date": {
+                            "type": "string",
+                            "format": "date"
+                          },
+                          "count": {
+                            "type": "number"
+                          }
+                        }
+                      }
                     }
                   }
                 }
@@ -994,9 +1048,7 @@
             }
           }
         }
-      }
-    },
-    "/training/time/{trainingId}": {
+      },
       "delete": {
         "tags": ["Protected"],
         "description": "Remove read pages and time added",
@@ -1040,7 +1092,38 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "default": "OK"
+                    },
+                    "pagesReadResult": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "date": {
+                            "type": "string",
+                            "format": "date"
+                          },
+                          "count": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
