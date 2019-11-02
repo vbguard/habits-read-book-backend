@@ -46,9 +46,7 @@ const createTraining = (req, res) => {
   console.log('result :', result);
   result.value.pagesReadResult = [
     {
-      date: new Date(
-        new Date().toLocaleString('uk-UK', { timeZone: '+02:00' })
-      ),
+      date: new Date(new Date().toISOString()),
       count: 0
     }
   ];
