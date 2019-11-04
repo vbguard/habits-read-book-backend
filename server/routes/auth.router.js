@@ -27,7 +27,7 @@ router
       // return the token or you would wish otherwise give eg. a succes message
       res.redirect(
         301,
-        `http://localhost:3000/library?token=${req.user.token}&hash`
+        `http://localhost:3000/login?token=${req.user.token}&hash`
       );
     },
 
